@@ -65,7 +65,6 @@ export class AlbumStore {
     const albumsData = data.data as TAlbum[];
     if (albumsData) {
       this.albums = albumsData.map((item) => new Album(item));
-      console.log(this.albums);
     } else {
       console.log("error");
     }
@@ -135,7 +134,6 @@ export class AlbumStore {
       photosPaths
     );
     const albumData = data.data as TAlbum;
-    console.log(albumData);
     if (albumData) {
       const newAlbum = new Album(albumData);
       this.albums = this.albums.map((a) =>

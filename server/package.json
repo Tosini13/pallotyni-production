@@ -1,22 +1,15 @@
 {
-  "name": "pallotyni-production",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server/build/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/build/index.js",
-    "start:dev": "cd server && nodemon index.ts",
-    "build:server": "cd server && tsc",
-    "build:client": "cd client && npm install && npm run build",
-    "postinstall": "npm run build:server && npm run build:client"
+    "start:dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines": {
-    "node": "14.x"
-  },
   "dependencies": {
     "@types/body-parser": "^1.19.0",
     "@types/date-fns": "^2.6.0",
@@ -27,13 +20,11 @@
     "express": "^4.17.1",
     "mongoose": "^5.12.2",
     "multer": "^1.4.2",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "ts-node": "^9.1.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
-    "@types/node": "^15.0.1",
-    "@types/react-router-dom": "^5.1.7",
+    "@types/node": "^14.14.37",
     "nodemon": "^2.0.7"
   }
 }

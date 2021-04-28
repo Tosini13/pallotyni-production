@@ -9,7 +9,7 @@ const galleryDir = "gallery";
 
 export const initNodeGallery = () => {
   const galleryPath = `./${galleryDir}`;
-  if (fs.existsSync(galleryPath)) {
+  if (!fs.existsSync(galleryPath)) {
     fs.mkdirSync(galleryPath);
   }
 };
