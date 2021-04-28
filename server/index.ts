@@ -5,9 +5,10 @@ import router from "./src/routes";
 import path from "path";
 import dotenv from "dotenv";
 import { initNodeGallery } from "./src/controllers/images";
-// require("dotenv").config();
 
 dotenv.config();
+
+initNodeGallery();
 
 const app = express();
 

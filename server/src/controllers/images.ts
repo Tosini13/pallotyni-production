@@ -8,8 +8,9 @@ import path from "path";
 const galleryDir = "gallery";
 
 export const initNodeGallery = () => {
-  if (fs.existsSync(galleryDir)) {
-    fs.mkdirSync(`./${galleryDir}`);
+  const galleryPath = `./${galleryDir}`;
+  if (fs.existsSync(galleryPath)) {
+    fs.mkdirSync(galleryPath);
   }
 };
 
