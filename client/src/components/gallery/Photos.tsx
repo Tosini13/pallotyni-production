@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
-import { Grid, GridSize } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { Photograph, PhotosStoreContext } from "../../stores/PhotographsStore";
 import PhotoDetails from "./PhotoDetails";
@@ -15,11 +15,6 @@ import { AlbumStoreContext } from "../../stores/GalleryStore";
 import { useParams } from "react-router";
 import { Id } from "../../models/Global";
 import RCButtonsCUD from "../../componentsReusable/ButtonsCUD";
-
-const breakpoints = {
-  md: 5 as GridSize,
-  xs: 12 as GridSize,
-};
 
 export interface GalleryProps {}
 
@@ -69,11 +64,10 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
           handleCancel={handleClearActionsSD}
         />
       ) : null}
-      <Grid container>
+      <Grid container spacing={2} justify="space-evenly">
         {storePhotos?.photos.map((photo) => (
           <React.Fragment key={photo.id}>
             <Grid
-              md={breakpoints.md}
               item
               key={photo.id}
               onClick={() => handleAction(photo)}
