@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { format } from "date-fns";
 
-import { DATE_FORMAT, Day } from "../../models/Global";
+import { Day } from "../../models/Global";
 import {
   Confession,
   ConfessionStoreContext,
@@ -16,7 +15,10 @@ import { Grid, GridSize, Typography } from "@material-ui/core";
 import { MainGridStyled, TitleTypography } from "../../style/MainStyled";
 import MainLayout from "../layout/MainLayout";
 import BackgroundImg from "../../resources/images/church_cross.png";
-import RCButtonsCUD from "../../componentsReusable/ButtonsCUD";
+import RCButtonsCUD, {
+  ACTION_MODE,
+  useCUD,
+} from "../../componentsReusable/ButtonsCUD";
 
 const breakpoints = {
   md: 5 as GridSize,
@@ -33,26 +35,26 @@ export interface ConfessionsViewProps {
 }
 
 const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
-  const [openForm, setOpenForm] = useState<boolean>(false);
-  const [edition, setEdition] = useState<boolean>(false);
-  const [removal, setRemoval] = useState<boolean>(false);
+  const storeConfession = useContext(ConfessionStoreContext);
   const [selectedConfession, setSelectedConfession] = useState<
     Confession | undefined
   >();
   const [hovered, setHovered] = useState<Confession | undefined>();
+  const [actionMode, setActionMode] = useState<ACTION_MODE | undefined>();
+  const { isAdd, isEdit, isDelete } = useCUD(actionMode);
 
-  const storeConfession = useContext(ConfessionStoreContext);
+  const confessionExistsAction = (action: () => void) =>
+    storeConfession.confessions.length ? action : undefined;
+
   const handleSelectConfession = (confession: Confession) => {
-    if (edition || removal) {
+    if (isEdit || isDelete) {
       setSelectedConfession(confession);
     }
   };
 
   const handleClearActionsSD = () => {
-    setRemoval(false);
-    setEdition(false);
-    setOpenForm(false);
     setSelectedConfession(undefined);
+    setActionMode(undefined);
   };
   useEffect(() => {
     storeConfession.fetch();
@@ -63,10 +65,15 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
     <MainLayout img={BackgroundImg} title="Spowiedź święta">
       {IS_ADMIN_TEMP ? (
         <RCButtonsCUD
-          handleAdd={() => setOpenForm(true)}
-          handleEdit={() => setEdition(true)}
-          handleDelete={() => setRemoval(true)}
-          handleCancel={handleClearActionsSD}
+          mode={actionMode}
+          handleAdd={() => setActionMode(ACTION_MODE.ADD)}
+          handleEdit={confessionExistsAction(() =>
+            setActionMode(ACTION_MODE.EDIT)
+          )}
+          handleDelete={confessionExistsAction(() =>
+            setActionMode(ACTION_MODE.DELETE)
+          )}
+          handleCancel={confessionExistsAction(handleClearActionsSD)}
         />
       ) : null}
       <Grid container justify="space-around">
@@ -93,9 +100,9 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
                     <TypographySelectableStyled
                       color="textPrimary"
                       key={confession.id}
-                      selectable={parseStyledBoolean(edition || removal)}
+                      selectable={parseStyledBoolean(isEdit || isDelete)}
                       hovered={parseStyledBoolean(
-                        (edition || removal) && hovered?.id === confession.id
+                        (isEdit || isDelete) && hovered?.id === confession.id
                       )}
                       onMouseEnter={() => setHovered(confession)}
                       onMouseLeave={() => setHovered(undefined)}
@@ -115,9 +122,9 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
             <TypographySelectableStyled
               color="textPrimary"
               key={confession.id}
-              selectable={parseStyledBoolean(edition || removal)}
+              selectable={parseStyledBoolean(isEdit || isDelete)}
               hovered={parseStyledBoolean(
-                (edition || removal) && hovered?.id === confession.id
+                (isEdit || isDelete) && hovered?.id === confession.id
               )}
               onMouseEnter={() => setHovered(confession)}
               onMouseLeave={() => setHovered(undefined)}
@@ -129,12 +136,12 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
         </MainGridStyled>
       </Grid>
       <ConfessionForm
-        open={Boolean((openForm || selectedConfession) && !removal)}
-        selectedConfession={removal ? undefined : selectedConfession}
+        open={Boolean(isAdd || (selectedConfession && isEdit))}
+        selectedConfession={isDelete ? undefined : selectedConfession}
         handleClose={handleClearActionsSD}
       />
       <QuestionDialog
-        open={Boolean(selectedConfession && removal)}
+        open={Boolean(selectedConfession && isDelete)}
         handleClose={handleClearActionsSD}
         title="Do you want to delete?"
       >

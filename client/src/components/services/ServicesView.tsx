@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { format } from "date-fns";
 import { observer } from "mobx-react";
 
-import { DATE_FORMAT, Day } from "../../models/Global";
+import { Day } from "../../models/Global";
 import { ServiceStoreContext, Service } from "../../stores/ServiceStore";
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
