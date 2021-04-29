@@ -66,7 +66,7 @@ const RCButtonsCUD: React.FC<RCButtonsCUDProps> = observer(
         alignItems="center"
       >
         <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
-          <ButtonCUD disabled={!handleCancel} onClick={handleCancel}>
+          <ButtonCUD disabled={!handleCancel || !mode} onClick={handleCancel}>
             Cancel
           </ButtonCUD>
         </GridButtonsItem>

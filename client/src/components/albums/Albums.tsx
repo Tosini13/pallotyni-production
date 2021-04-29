@@ -14,7 +14,10 @@ import { GALLERY_PATH } from "../../models/const";
 import { useHistory } from "react-router";
 import { GetRoute } from "../../models/Global";
 import AlbumSummary from "./AlbumSummary";
-import RCButtonsCUD from "../../componentsReusable/ButtonsCUD";
+import RCButtonsCUD, {
+  ACTION_MODE,
+  useCUD,
+} from "../../componentsReusable/ButtonsCUD";
 
 const ImgStyled = styled.img<{ action?: string; hovered?: string }>`
   height: 150px;
@@ -40,11 +43,14 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
   const router = useHistory();
   const store = useContext(AlbumStoreContext);
 
-  const [openForm, setOpenForm] = useState<boolean>(false);
-  const [edition, setEdition] = useState<boolean>(false);
-  const [removal, setRemoval] = useState<boolean>(false);
   const [selectedAlbum, setSelectedAlbum] = useState<Album | undefined>();
   const [mouseOverPhoto, setMouseOverPhoto] = useState<boolean>(false);
+  const [actionMode, setActionMode] = useState<ACTION_MODE | undefined>();
+
+  const { isAdd, isEdit, isDelete } = useCUD(actionMode);
+
+  const albumExistsAction = (action: () => void) =>
+    store.albums.length ? action : undefined;
 
   useEffect(() => {
     console.log("fetch!");
@@ -53,21 +59,18 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
   }, [store]);
 
   const handleClearActionsSD = () => {
-    setRemoval(false);
-    setEdition(false);
-    setOpenForm(false);
     setSelectedAlbum(undefined);
+    setActionMode(undefined);
   };
 
   const handleAction = (a: Album) => {
-    if (!edition && !removal && a.photos.length) {
+    if (!isEdit && !isDelete && a.photos.length) {
       router.push(GetRoute.album(a.id));
     }
-    if (edition) {
+    if (isEdit) {
       setSelectedAlbum(a);
-      setOpenForm(true);
     }
-    if (removal) {
+    if (isDelete) {
       setSelectedAlbum(a);
     }
   };
@@ -78,10 +81,13 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
       {" "}
       {IS_ADMIN_TEMP ? (
         <RCButtonsCUD
-          handleAdd={() => setOpenForm(true)}
-          handleEdit={() => setEdition(true)}
-          handleDelete={() => setRemoval(true)}
-          handleCancel={handleClearActionsSD}
+          mode={actionMode}
+          handleAdd={() => setActionMode(ACTION_MODE.ADD)}
+          handleEdit={albumExistsAction(() => setActionMode(ACTION_MODE.EDIT))}
+          handleDelete={albumExistsAction(() =>
+            setActionMode(ACTION_MODE.DELETE)
+          )}
+          handleCancel={albumExistsAction(handleClearActionsSD)}
         />
       ) : null}
       <Grid container justify="space-around">
@@ -95,10 +101,12 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
               <ImgStyled
                 src={`${GALLERY_PATH}/${album.coverPhoto?.path}`}
                 alt={album.coverPhoto?.path}
-                action={parseStyledBoolean(edition || removal)}
+                action={parseStyledBoolean(isEdit || isDelete)}
                 hovered={parseStyledBoolean(
-                  (edition || removal) && mouseOverPhoto
+                  (isEdit || isDelete) && mouseOverPhoto
                 )}
+                onMouseLeave={() => setMouseOverPhoto(false)}
+                onMouseEnter={() => setMouseOverPhoto(true)}
               />
             ) : (
               <CircularProgress />
@@ -116,15 +124,14 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
         ))}
       </Grid>
       <AlbumForm
-        open={Boolean(openForm && !removal)}
-        selectedAlbum={openForm ? selectedAlbum : undefined}
+        open={Boolean(isAdd || (selectedAlbum && isEdit))}
+        selectedAlbum={selectedAlbum}
         handleClose={handleClearActionsSD}
       />
       <QuestionDialog
-        open={Boolean(selectedAlbum && removal)}
+        open={Boolean(selectedAlbum && isDelete)}
         handleClose={handleClearActionsSD}
         title="Do you want to delete?"
-        content="Do you want to delete?"
       >
         <ButtonSuccess
           onClick={() => {
