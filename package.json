@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/build/index.js",
-    "start:dev": "cd server && nodemon index.ts",
+    "dev": "cd server && nodemon index.ts",
+    "dev:client": "cd client && npm run start:dev",
     "build:server": "cd server && tsc",
     "build:client": "cd client && npm install && npm run build",
     "postinstall": "npm run build:server && npm run build:client"
