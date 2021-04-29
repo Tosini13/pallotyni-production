@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Hidden } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RoutingPath } from "../../models/Global";
@@ -71,28 +71,64 @@ export interface LoggedInMenuProps {}
 const LoggedInMenu: React.FC<LoggedInMenuProps> = () => {
   return (
     <GridContainerStyled container wrap="nowrap" spacing={3}>
-      <GridMenuItem>
-        <LinkStyled to={RoutingPath.home}>Home</LinkStyled>
-      </GridMenuItem>
-      <GridMenuItem>
-        <AStyled>Service</AStyled>
-        <GridSubMenuContainer>
-          <GridSubMenuItem>
-            <LinkStyled to={RoutingPath.service}>Service</LinkStyled>
-          </GridSubMenuItem>
-          <GridSubMenuItem>
-            <LinkStyled to={RoutingPath.confessions}>Confession</LinkStyled>
-          </GridSubMenuItem>
-        </GridSubMenuContainer>
-      </GridMenuItem>
-      <GridMenuItem>
-        <LinkStyled to={RoutingPath.gallery}>Gallery</LinkStyled>
-      </GridMenuItem>
-      <GridMenuItem>
-        <LinkStyled to={RoutingPath.news}>News</LinkStyled>
-      </GridMenuItem>
+      <Menu />
     </GridContainerStyled>
   );
 };
 
 export default LoggedInMenu;
+
+export interface MenuProps {
+  actionCallback?: () => void;
+}
+
+export const Menu: React.FC<MenuProps> = ({ actionCallback }) => {
+  return (
+    <>
+      <GridMenuItem>
+        <LinkStyled to={RoutingPath.home} onClick={actionCallback}>
+          Strona Główna
+        </LinkStyled>
+      </GridMenuItem>
+      <Hidden smDown>
+        <GridMenuItem>
+          <AStyled>Posługa</AStyled>
+          <GridSubMenuContainer>
+            <GridSubMenuItem>
+              <LinkStyled to={RoutingPath.service} onClick={actionCallback}>
+                Msze Św.
+              </LinkStyled>
+            </GridSubMenuItem>
+            <GridSubMenuItem>
+              <LinkStyled to={RoutingPath.confessions} onClick={actionCallback}>
+                Spowiedź
+              </LinkStyled>
+            </GridSubMenuItem>
+          </GridSubMenuContainer>
+        </GridMenuItem>
+      </Hidden>
+      <Hidden mdUp>
+        <GridMenuItem>
+          <LinkStyled to={RoutingPath.service} onClick={actionCallback}>
+            Msze Św.
+          </LinkStyled>
+        </GridMenuItem>
+        <GridMenuItem>
+          <LinkStyled to={RoutingPath.confessions} onClick={actionCallback}>
+            Spowiedź
+          </LinkStyled>
+        </GridMenuItem>
+      </Hidden>
+      <GridMenuItem>
+        <LinkStyled to={RoutingPath.gallery} onClick={actionCallback}>
+          Galeria
+        </LinkStyled>
+      </GridMenuItem>
+      <GridMenuItem>
+        <LinkStyled to={RoutingPath.news} onClick={actionCallback}>
+          Aktualności
+        </LinkStyled>
+      </GridMenuItem>
+    </>
+  );
+};

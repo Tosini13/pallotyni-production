@@ -1,4 +1,4 @@
-import { createRef, MutableRefObject, useRef } from "react";
+import { useRef } from "react";
 import { IconButton, Typography } from "@material-ui/core";
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
@@ -82,12 +82,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       <ImgBackground src={img} ref={topRef}>
         <ImgShadow>
           <TitleContainer>
-            <Typography variant="h2" color="secondary" align="center">
+            <Typography
+              variant={mainTheme.breakpoints.down("sm") ? "h4" : "h2"}
+              color="secondary"
+              align="center"
+            >
               {title}
             </Typography>
             {subtitle ? (
               <SubTitleContainer>
-                <Typography variant="h5" color="textSecondary">
+                <Typography
+                  variant={mainTheme.breakpoints.down("sm") ? "h6" : "h5"}
+                  color="textSecondary"
+                >
                   {subtitle}
                 </Typography>
               </SubTitleContainer>

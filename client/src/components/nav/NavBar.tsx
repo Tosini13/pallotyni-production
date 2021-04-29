@@ -4,7 +4,6 @@ import { mainTheme } from "../../style/config";
 import LoggedInMenu from "./LoggedInMenu";
 import Logo from "../../resources/logo/pallotyni_logo.png";
 import { Grid } from "@material-ui/core";
-import Language from "./Language";
 import { useHistory } from "react-router";
 import { RoutingPath } from "../../models/Global";
 import { AStyled } from "./LoggedInMenu";
@@ -63,15 +62,12 @@ const NavBar: React.FC<NavBarProps> = observer(() => {
           <Grid container alignItems="center" justify="flex-end">
             <Grid item>
               {authStore.isLoggedIn ? (
-                <AStyled onClick={() => handleLogOut()}>Log Out</AStyled>
+                <AStyled onClick={() => handleLogOut()}>Wyloguj</AStyled>
               ) : (
                 <AStyled onClick={() => router.push(RoutingPath.login)}>
-                  Log In
+                  Zaloguj
                 </AStyled>
               )}
-            </Grid>
-            <Grid item>
-              <Language />
             </Grid>
           </Grid>
         </Grid>

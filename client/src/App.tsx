@@ -2,13 +2,10 @@ import React from "react";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import styled from "styled-components";
 
-import AboutUs from "./components/aboutUs/AboutUs";
 import ConfessionsView from "./components/confessions/ConfessionsView";
-import DailyMessage from "./components/dailyMessage/DailyMessage";
 import Photos from "./components/gallery/Photos";
 import NavBar from "./components/nav/NavBar";
 import News from "./components/news/News";
-import SideBarNews from "./components/news/sideBar/SideBarNews";
 import ServicesView from "./components/services/ServicesView";
 import StellaMaris from "./components/stellaMaris/StellaMaris";
 import { ScrollBarStyled } from "./componentsReusable/ScrollBar";
@@ -18,6 +15,8 @@ import Home from "./components/home/Home";
 import Albums from "./components/albums/Albums";
 import Login from "./components/auth/Login";
 import ForgottenPassword from "./components/auth/ForgottenPassword";
+import SidebarMenu from "./components/sidebarMenu/SidebarMenu";
+import { Hidden } from "@material-ui/core";
 
 const GlobalStyle = styled.div`
   ${ScrollBarStyled}
@@ -42,7 +41,12 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle>
-        <NavBar />
+        <Hidden mdUp>
+          <SidebarMenu />
+        </Hidden>
+        <Hidden smDown>
+          <NavBar />
+        </Hidden>
         {/*-----------------------------*/}
         {/*DESKTOP VIEW*/}
         <MainContainerStyled>

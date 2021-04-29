@@ -21,6 +21,7 @@ const PaperStyled = styled(Paper)`
   transform: translate(-50%, -50%);
   background-color: ${mainTheme.palette.primary.main};
   padding: 50px;
+  min-width: 200px;
 `;
 
 type TLoginForm = {
