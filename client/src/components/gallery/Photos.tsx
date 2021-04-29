@@ -14,7 +14,10 @@ import MainLayout from "../layout/MainLayout";
 import { AlbumStoreContext } from "../../stores/GalleryStore";
 import { useParams } from "react-router";
 import { Id } from "../../models/Global";
-import RCButtonsCUD from "../../componentsReusable/ButtonsCUD";
+import RCButtonsCUD, {
+  ACTION_MODE,
+  useCUD,
+} from "../../componentsReusable/ButtonsCUD";
 
 export interface GalleryProps {}
 
@@ -25,10 +28,13 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
   const storeAlbum = useContext(AlbumStoreContext);
   const storePhotos = useContext(PhotosStoreContext);
   const [image, setImage] = useState<any>();
-  const [openForm, setOpenForm] = useState<boolean>(false);
-  const [edition, setEdition] = useState<boolean>(false);
-  const [removal, setRemoval] = useState<boolean>(false);
   const [selectedPhoto, setSelectedPhoto] = useState<Photograph | undefined>();
+  const [actionMode, setActionMode] = useState<ACTION_MODE | undefined>();
+
+  const { isAdd, isEdit, isDelete } = useCUD(actionMode);
+
+  const photoExistsAction = (action: () => void) =>
+    storePhotos.photos.length ? action : undefined;
 
   useEffect(() => {
     storePhotos.fetch(albumId);
@@ -39,18 +45,8 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
   }, [storeAlbum]);
 
   const handleClearActionsSD = () => {
-    setRemoval(false);
-    setEdition(false);
-    setOpenForm(false);
     setSelectedPhoto(undefined);
-  };
-
-  const handleAction = (p: Photograph) => {
-    if (edition) {
-      setSelectedPhoto(p);
-      setOpenForm(true);
-    }
-    setSelectedPhoto(p);
+    setActionMode(undefined);
   };
 
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
@@ -58,10 +54,13 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
     <MainLayout img={BackgroundImg} title="Gallery">
       {IS_ADMIN_TEMP ? (
         <RCButtonsCUD
-          handleAdd={() => setOpenForm(true)}
-          handleEdit={() => setEdition(true)}
-          handleDelete={() => setRemoval(true)}
-          handleCancel={handleClearActionsSD}
+          mode={actionMode}
+          handleAdd={() => setActionMode(ACTION_MODE.ADD)}
+          handleEdit={photoExistsAction(() => setActionMode(ACTION_MODE.EDIT))}
+          handleDelete={photoExistsAction(() =>
+            setActionMode(ACTION_MODE.DELETE)
+          )}
+          handleCancel={photoExistsAction(handleClearActionsSD)}
         />
       ) : null}
       <Grid container spacing={2} justify="space-evenly">
@@ -70,14 +69,14 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
             <Grid
               item
               key={photo.id}
-              onClick={() => handleAction(photo)}
+              onClick={() => setSelectedPhoto(photo)}
               style={{ position: "relative" }}
             >
-              <PhotoSummary photo={photo} edition={edition} removal={removal} />
+              <PhotoSummary photo={photo} edition={isEdit} removal={isDelete} />
             </Grid>
             <PhotoDetails
               photo={photo}
-              open={photo.id === selectedPhoto?.id && !removal && !edition}
+              open={photo.id === selectedPhoto?.id && !isDelete && !isEdit}
               handleClose={() => setSelectedPhoto(undefined)}
             />
           </React.Fragment>
@@ -87,15 +86,14 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
         albumId={albumId}
         image={image}
         setImage={setImage}
-        open={Boolean(openForm && !removal)}
-        selectedPhotograph={openForm ? selectedPhoto : undefined}
+        open={Boolean(isAdd || (selectedPhoto && isEdit))}
+        selectedPhotograph={selectedPhoto}
         handleClose={handleClearActionsSD}
       />
       <QuestionDialog
-        open={Boolean(selectedPhoto && removal)}
+        open={Boolean(selectedPhoto && isDelete)}
         handleClose={handleClearActionsSD}
         title="Do you want to delete?"
-        content="Do you want to delete?"
       >
         <ButtonSuccess
           onClick={() => {
