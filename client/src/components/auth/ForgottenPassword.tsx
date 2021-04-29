@@ -52,12 +52,12 @@ const ForgottenPassword: React.FC<ForgottenPasswordProps> = observer(() => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container direction="column" spacing={5} alignItems="center">
           <Grid item>
-            <Typography color="secondary">Reset Password</Typography>
+            <Typography color="secondary">Resetowanie Hasła</Typography>
           </Grid>
           <Grid item>
             <TextFieldC
               inputRef={register({
-                required: "Email is required",
+                required: "Email jest wymagany",
               })}
               name="email"
               label="email"
@@ -65,12 +65,12 @@ const ForgottenPassword: React.FC<ForgottenPasswordProps> = observer(() => {
           </Grid>
           <Grid item>
             <Button variant="outlined" color="secondary" type="submit">
-              Reset
+              Zresetuj
             </Button>
           </Grid>
           <Grid item>
             <Typography color="error">
-              {wrongEmail ? "The email doesn't exists" : ""}
+              {wrongEmail ? "Podany email nie istnieje" : ""}
             </Typography>
           </Grid>
         </Grid>

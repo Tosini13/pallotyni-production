@@ -77,7 +77,7 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
 
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
-    <MainLayout img={BackgroundImg} title="Albums">
+    <MainLayout img={BackgroundImg} title="Albumy">
       {" "}
       {IS_ADMIN_TEMP ? (
         <RCButtonsCUD
@@ -131,7 +131,7 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
       <QuestionDialog
         open={Boolean(selectedAlbum && isDelete)}
         handleClose={handleClearActionsSD}
-        title="Do you want to delete?"
+        title="Czy na pewno chcesz usunąć?"
       >
         <ButtonSuccess
           onClick={() => {
@@ -141,9 +141,9 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
             }
           }}
         >
-          Yes
+          Tak
         </ButtonSuccess>
-        <ButtonError onClick={handleClearActionsSD}>No</ButtonError>
+        <ButtonError onClick={handleClearActionsSD}>Nie</ButtonError>
       </QuestionDialog>
     </MainLayout>
   );

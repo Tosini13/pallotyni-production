@@ -67,7 +67,7 @@ const RCButtonsCUD: React.FC<RCButtonsCUDProps> = observer(
       >
         <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
           <ButtonCUD disabled={!handleCancel || !mode} onClick={handleCancel}>
-            Cancel
+            Anuluj
           </ButtonCUD>
         </GridButtonsItem>
         <GridButtonsItem item>
@@ -79,7 +79,7 @@ const RCButtonsCUD: React.FC<RCButtonsCUDProps> = observer(
                 startIcon={<Add />}
                 color={isAdd ? "secondary" : "primary"}
               >
-                Add
+                Dodaj
               </ButtonCUD>
             </GridButtonsItem>
             <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
@@ -89,7 +89,7 @@ const RCButtonsCUD: React.FC<RCButtonsCUDProps> = observer(
                 startIcon={<Edit />}
                 color={isEdit ? "secondary" : "primary"}
               >
-                Edit
+                Edytuj
               </ButtonCUD>
             </GridButtonsItem>
             <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
@@ -99,7 +99,7 @@ const RCButtonsCUD: React.FC<RCButtonsCUDProps> = observer(
                 startIcon={<Delete />}
                 color={isDelete ? "secondary" : "primary"}
               >
-                Delete
+                Usuń
               </ButtonCUD>
             </GridButtonsItem>
           </Grid>

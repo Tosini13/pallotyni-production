@@ -57,12 +57,12 @@ const Login: React.FC<LoginProps> = observer(() => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container direction="column" spacing={5} alignItems="center">
           <Grid item>
-            <Typography color="secondary">Log In</Typography>
+            <Typography color="secondary">Logowanie</Typography>
           </Grid>
           <Grid item>
             <TextFieldC
               inputRef={register({
-                required: "Email is required",
+                required: "Email jest wymagany",
               })}
               name="email"
               label="email"
@@ -71,28 +71,28 @@ const Login: React.FC<LoginProps> = observer(() => {
           <Grid item>
             <TextFieldC
               inputRef={register({
-                required: "Password is required",
+                required: "Hasło jest wymagane",
               })}
               name="password"
               type="password"
-              label="password"
+              label="hasło"
             />
           </Grid>
           <Grid item>
             <Grid container direction="column" alignItems="center" spacing={2}>
               <Grid item>
                 <Button variant="outlined" color="secondary" type="submit">
-                  Login
+                  Zaloguj
                 </Button>
               </Grid>
               <Grid item>
                 <Typography color="error">
-                  {wrongCredentials ? "Wrong email or password" : ""}
+                  {wrongCredentials ? "Zły email lub hasło!" : ""}
                 </Typography>
               </Grid>
               <Grid item>
                 <LinkStyled to={RoutingPath.resetPassword}>
-                  Reset password
+                  Zresetuj hasło
                 </LinkStyled>
               </Grid>
             </Grid>

@@ -44,7 +44,7 @@ const AlbumSummary: React.FC<AlbumSummaryProps> = ({
           </Grid>
           <Grid item>
             <Button variant="outlined" onClick={() => setOpenForm(true)}>
-              Add Photos
+              Dodaj zdjęcia
             </Button>
           </Grid>
         </Grid>
