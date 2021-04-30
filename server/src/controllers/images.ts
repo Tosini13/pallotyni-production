@@ -6,9 +6,11 @@ import { DATE_FILE_NAME } from "../models/global";
 import path from "path";
 import { s3 } from "../..";
 import { S3 } from "aws-sdk";
-import { uploadimageAWS } from "./actions/images";
+import { deleteImageAWS, uploadimageAWS } from "./actions/images";
+import { Console } from "node:console";
 
 const galleryDir = "gallery";
+export const AWS_GALLERY_ROOT = "amazonaws.com/";
 
 export const initNodeGallery = () => {
   const galleryPath = `./${galleryDir}`;
@@ -65,16 +67,25 @@ export const uploadImages = (req: Request, res: Response) => {
     });
 };
 
-export const updateImage = (req: Request, res: Response) => {
-  const rootPath = path.dirname(require.main?.filename ?? "");
-  fs.unlink(`${rootPath}\\gallery\\${req.params.path}`, () => {
-    res.send(req.file.filename);
+export const updateImage = async (req: Request, res: Response) => {
+  const key = req.body.deleteImage.split(AWS_GALLERY_ROOT)[1];
+  await deleteImageAWS({ key });
+  const file = await uploadimageAWS({
+    path: req.file.path,
+    filename: req.file.filename,
+    mimetype: req.file.mimetype,
   });
+  res.send(file.Location);
 };
 
-export const deleteImage = (req: Request, res: Response) => {
-  const rootPath = path.dirname(require.main?.filename ?? "");
-  fs.unlink(`${rootPath}\\gallery\\${req.params.path}`, () =>
-    res.send(req.params.path)
-  );
+export const deleteImage = async (req: Request, res: Response) => {
+  const path = req?.query?.path as string | undefined;
+  console.log("path", path);
+  if (path) {
+    const key = path.split(AWS_GALLERY_ROOT)[1];
+    await deleteImageAWS({ key });
+    res.send(req.query.path);
+  } else {
+    res.send(new Error("wrong path"));
+  }
 };

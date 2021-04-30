@@ -15,6 +15,8 @@ import {
   getAlbumsAction,
   getAlbumAction,
 } from "./actions/albums";
+import { AWS_GALLERY_ROOT } from "./images";
+import { deleteImageAWS } from "./actions/images";
 const ObjectID = require("mongodb").ObjectID;
 
 export const convertAlbum = (album: LeanDocument<IAlbum>): TAlbum => ({
@@ -98,8 +100,15 @@ export const deleteAlbum = (req: Request, res: Response) => {
         Photograph.deleteMany({ _id: album.photos })
           .then((response) => {
             const rootPath = path.dirname(require.main?.filename ?? "");
-            photos.forEach((photo) => {
-              fs.unlink(`${rootPath}/gallery/${photo.path}`, () => {});
+            photos.forEach(async (photo) => {
+              const key = photo.path.split(AWS_GALLERY_ROOT)[1];
+              try {
+                console.log("UPLOADING ===========> ", key);
+                await deleteImageAWS({ key });
+              } catch (e) {
+                console.log("ERROR ===========> ", e);
+                throw Error(e);
+              }
             });
             // TODO: probably it makes warning
             res.send({ album: convertAlbum(album), photos });

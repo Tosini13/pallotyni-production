@@ -98,7 +98,7 @@ router.delete("/albums/:id", deleteAlbum);
 // IMAGES
 router.post("/many-images", multerConfig.array("images"), uploadImages);
 router.post("/images", multerConfig.single("img"), uploadImage);
-router.put("/images/:path", multerConfig.single("img"), updateImage);
-router.delete("/images/:path", deleteImage);
+router.put("/images", multerConfig.single("img"), updateImage);
+router.delete("/images", deleteImage);
 
 export default router;

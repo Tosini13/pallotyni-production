@@ -124,7 +124,8 @@ export class PhotosStore {
     if (imageFile) {
       let formData = new FormData();
       formData.append("img", imageFile);
-      const imageData = await axios.put(`${IMAGES_API_URL}/${path}`, formData, {
+      formData.append("deleteImage", path);
+      const imageData = await axios.put(IMAGES_API_URL, formData, {
         headers: {
           "content-type": "multipart/form-data",
         },
@@ -148,7 +149,7 @@ export class PhotosStore {
 
   async removePhoto({ photograph, albumId }: TRemovePhoto) {
     const imageData = await axios.delete(
-      `${IMAGES_API_URL}/${photograph.path}`
+      `${IMAGES_API_URL}?path=${photograph.path}`
     );
     const path = imageData.data as string;
     console.log(path);
