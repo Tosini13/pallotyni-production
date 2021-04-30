@@ -75,13 +75,11 @@ const PhotosForm: React.FC<PhotosFormProps> = ({
   };
 
   const onSubmit = async (data: TPhotographForm) => {
-    console.log(data);
     if (!images) {
       setImageError(true);
     } else {
       try {
         const paths = await photoStore.createManyPhotos({ imageFiles: images });
-        console.log("paths", paths);
         if (paths) {
           albumStore.addPhotos({
             albumId: selectedAlbum.id,

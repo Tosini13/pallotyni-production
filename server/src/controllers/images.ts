@@ -6,6 +6,7 @@ import { DATE_FILE_NAME } from "../models/global";
 import path from "path";
 import { s3 } from "../..";
 import { S3 } from "aws-sdk";
+import { uploadimageAWS } from "./actions/images";
 
 const galleryDir = "gallery";
 
@@ -32,27 +33,36 @@ export const multerConfig = multer({
   storage: multerStorage,
 });
 
-export const uploadImage = (req: Request, res: Response) => {
-  const params = {
-    ACL: "public-read",
-    Bucket: process.env.BUCKET_NAME ?? "",
-    Body: fs.createReadStream(req.file.path),
-    ContentType: req.file.mimetype,
-    Key: `gallery-test/${req.file.filename}`,
-  };
-  s3.upload(params, (err: Error, data: S3.ManagedUpload.SendData) => {
-    if (err) {
-      console.log("err", err);
-      res.send(err);
-    }
-    console.log("data", data);
-    res.send(data.Location);
+export const uploadImage = async (req: Request, res: Response) => {
+  const file = await uploadimageAWS({
+    path: req.file.path,
+    filename: req.file.filename,
+    mimetype: req.file.mimetype,
   });
+  res.send(file.Location);
 };
 
 export const uploadImages = (req: Request, res: Response) => {
   const files = req.files as Express.Multer.File[]; // Is it ok?!?
-  res.send(files.map((file) => file.filename));
+  let promises: any[] = [];
+  files.forEach((file) => {
+    console.log(file);
+    promises.push(
+      uploadimageAWS({
+        path: file.path,
+        filename: file.filename,
+        mimetype: file.mimetype,
+      })
+    );
+  });
+
+  Promise.all(promises)
+    .then((data) => {
+      res.send(data.map((img) => img.Location));
+    })
+    .catch((e) => {
+      throw Error(e);
+    });
 };
 
 export const updateImage = (req: Request, res: Response) => {

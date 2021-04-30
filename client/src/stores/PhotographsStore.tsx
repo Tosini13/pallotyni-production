@@ -105,7 +105,6 @@ export class PhotosStore {
         "content-type": "multipart/form-data",
       },
     });
-    console.log("imagesData", imagesData);
     const paths = imagesData.data as string[];
     if (paths.length) {
       return paths;
