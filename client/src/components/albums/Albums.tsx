@@ -10,7 +10,6 @@ import { Album, AlbumStoreContext } from "../../stores/GalleryStore";
 import AlbumForm from "./AlbumForm";
 import styled from "styled-components";
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
-import { GALLERY_PATH } from "../../models/const";
 import { useHistory } from "react-router";
 import { GetRoute } from "../../models/Global";
 import AlbumSummary from "./AlbumSummary";
@@ -99,7 +98,7 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
           >
             {album.coverPhoto ? (
               <ImgStyled
-                src={`${GALLERY_PATH}/${album.coverPhoto?.path}`}
+                src={album.coverPhoto?.path}
                 alt={album.coverPhoto?.path}
                 action={parseStyledBoolean(isEdit || isDelete)}
                 hovered={parseStyledBoolean(

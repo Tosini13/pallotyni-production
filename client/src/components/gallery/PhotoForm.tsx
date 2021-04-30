@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 import { TCreatePhotographAndImage } from "../../models/Photograph";
 import TextFieldC from "../../componentsReusable/Forms";
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
-import { GALLERY_PATH } from "../../models/const";
 import { DialogStyled, RCDialogTitle } from "../../componentsReusable/Dialogs";
 
 const AddAPhotoIconStyled = styled(AddAPhotoIcon)<{ error?: string }>`
@@ -181,7 +180,7 @@ const PhotoForm: React.FC<PhotoFormProps> = ({
 
   useEffect(() => {
     if (selectedPhotograph) {
-      setImageUrl(`${GALLERY_PATH}/${selectedPhotograph?.path}`);
+      setImageUrl(selectedPhotograph?.path);
       reset({
         description: selectedPhotograph.description,
       });

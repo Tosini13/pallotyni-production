@@ -13,7 +13,6 @@ export const IMAGES_API_URL = `${API_URL}/images`;
 export const MANY_IMAGES_API_URL = `${API_URL}/many-images`;
 export const PHOTOGRAPHS_API_URL = `${API_URL}/photographs`;
 export const ALBUM_PHOTOGRAPHS_API_URL = `${API_URL}/albums/:albumId/photographs/:photographId`;
-export const GALLERY_PATH = `${SERVER_URL}/gallery`;
 
 type TUrlAlbumPhotographParams = { photographId: Id; albumId: Id };
 export const urlAlbumPhotograph = ({
