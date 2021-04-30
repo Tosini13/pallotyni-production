@@ -4,6 +4,8 @@ import { Request, Response } from "express";
 import multer from "multer";
 import { DATE_FILE_NAME } from "../models/global";
 import path from "path";
+import { s3 } from "../..";
+import { S3 } from "aws-sdk";
 
 const galleryDir = "gallery";
 
@@ -31,7 +33,21 @@ export const multerConfig = multer({
 });
 
 export const uploadImage = (req: Request, res: Response) => {
-  res.send(req.file.filename);
+  const params = {
+    ACL: "public-read",
+    Bucket: process.env.BUCKET_NAME ?? "",
+    Body: fs.createReadStream(req.file.path),
+    ContentType: req.file.mimetype,
+    Key: `gallery-test/${req.file.filename}`,
+  };
+  s3.upload(params, (err: Error, data: S3.ManagedUpload.SendData) => {
+    if (err) {
+      console.log("err", err);
+      res.send(err);
+    }
+    console.log("data", data);
+    res.send(data.Location);
+  });
 };
 
 export const uploadImages = (req: Request, res: Response) => {

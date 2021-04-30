@@ -4,7 +4,6 @@ import { Dialog, DialogContent, Typography } from "@material-ui/core";
 import { Photograph } from "../../stores/PhotographsStore";
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
-import { GALLERY_PATH } from "../../models/const";
 
 const ImgContainer = styled.div`
   background-color: ${mainTheme.palette.primary.main};
@@ -37,7 +36,7 @@ const PhotoDetails: React.FC<PhotoDetailsProps> = ({
       <div style={{ position: "relative" }}>
         <ImgContainer>
           <img
-            src={`${GALLERY_PATH}/${photo.path}`}
+            src={photo.path}
             alt={photo.path}
             style={{ maxHeight: "100vh", maxWidth: "600px" }}
           />

@@ -6,7 +6,6 @@ import EditIcon from "@material-ui/icons/Edit";
 
 import { Photograph } from "../../stores/PhotographsStore";
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
-import { GALLERY_PATH } from "../../models/const";
 import { CircularProgress } from "@material-ui/core";
 import { ImgStyled } from "../../style/MainStyled";
 
@@ -45,7 +44,7 @@ const PhotoSummary: React.FC<PhotoSummaryProps> = ({
     <>
       {photo.path ? (
         <ImgStyled
-          src={`${GALLERY_PATH}/${photo.path}`}
+          src={photo.path}
           alt={photo.path}
           action={parseStyledBoolean(edition || removal)}
           hovered={parseStyledBoolean((edition || removal) && mouseOverPhoto)}
