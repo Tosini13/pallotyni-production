@@ -20,7 +20,7 @@ import { Hidden } from "@material-ui/core";
 
 const GlobalStyle = styled.div`
   ${ScrollBarStyled}
-  background-color: rgba(0,0,0,0.5);
+  background-color: #cccac4;
 `;
 
 const MainContainerStyled = styled.div`

@@ -41,7 +41,7 @@ const SubTitleContainer = styled.div`
 
 const MainContainer = styled.div`
   margin: auto;
-  padding: 120px 0px;
+  padding: 120px 20px;
   max-width: 980px;
   min-height: 100vh;
   position: relative;

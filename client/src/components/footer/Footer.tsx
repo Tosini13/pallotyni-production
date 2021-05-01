@@ -21,6 +21,7 @@ const ImageCover = styled.div`
     rgba(39, 53, 73, 0.94) 99.99%
   );
   min-height: 50vh;
+  padding-bottom: 100px;
 `;
 
 export interface FooterProps {}

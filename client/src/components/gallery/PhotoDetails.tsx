@@ -41,7 +41,7 @@ const PhotoDetails: React.FC<PhotoDetailsProps> = ({
           <img
             src={photo.path}
             alt={photo.path}
-            style={{ maxHeight: "100vh", maxWidth: "600px" }}
+            style={{ maxHeight: "100vh", maxWidth: "600px", width: "100%" }}
           />
         </ImgContainer>
         <DialogContentStyled>
