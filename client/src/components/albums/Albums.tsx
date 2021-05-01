@@ -129,6 +129,8 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
         handleNo={handleClearActionsSD}
         handleYes={async () => {
           if (selectedAlbum) {
+            console.log("########################");
+            console.log("selectedAlbum", selectedAlbum);
             await execute(store.deleteAlbum(selectedAlbum));
             handleClearActionsSD();
           }

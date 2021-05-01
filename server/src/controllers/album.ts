@@ -105,7 +105,7 @@ export const deleteAlbum = (req: Request, res: Response) => {
             res.send(convertAlbum(album));
           });
       }
-      res.send(album);
+      res.send(album && convertAlbum(album));
     })
     .catch((e) => console.log("e", e));
 };
