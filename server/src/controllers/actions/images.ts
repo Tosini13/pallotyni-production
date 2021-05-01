@@ -30,7 +30,6 @@ type TDeleteImageAWSAWSParams = {
   key: string;
 };
 export const deleteImageAWS = async ({ key }: TDeleteImageAWSAWSParams) => {
-  console.log("key", key);
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME ?? "",
     Key: key,

@@ -114,10 +114,6 @@ const PhotoForm: React.FC<PhotoFormProps> = ({
   };
 
   const onSubmit = (data: TPhotographForm) => {
-    console.log(data);
-    console.log(image);
-    console.log(selectedPhotograph);
-
     if (!image && !imgUrl) {
       setImageError(true);
     } else if (selectedPhotograph && image) {

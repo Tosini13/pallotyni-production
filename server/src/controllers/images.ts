@@ -3,11 +3,7 @@ import { format } from "date-fns";
 import { Request, Response } from "express";
 import multer from "multer";
 import { DATE_FILE_NAME } from "../models/global";
-import path from "path";
-import { s3 } from "../..";
-import { S3 } from "aws-sdk";
 import { deleteImageAWS, uploadimageAWS } from "./actions/images";
-import { Console } from "node:console";
 
 const galleryDir = "gallery";
 export const AWS_GALLERY_ROOT = "amazonaws.com/";
@@ -25,8 +21,7 @@ const multerStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const extension = file.mimetype.replace("image/", "");
-    const originalName = file.originalname.replace(" ", "_").replace("/", "_");
-    const filename = `${originalName}_${format(new Date(), DATE_FILE_NAME)}`;
+    const filename = `gallery_image_${format(new Date(), DATE_FILE_NAME)}`;
     cb(null, `${filename}.${extension}`);
   },
 });
@@ -48,7 +43,6 @@ export const uploadImages = (req: Request, res: Response) => {
   const files = req.files as Express.Multer.File[]; // Is it ok?!?
   let promises: any[] = [];
   files.forEach((file) => {
-    console.log(file);
     promises.push(
       uploadimageAWS({
         path: file.path,
@@ -80,7 +74,6 @@ export const updateImage = async (req: Request, res: Response) => {
 
 export const deleteImage = async (req: Request, res: Response) => {
   const path = req?.query?.path as string | undefined;
-  console.log("path", path);
   if (path) {
     const key = path.split(AWS_GALLERY_ROOT)[1];
     await deleteImageAWS({ key });

@@ -2,13 +2,7 @@ import fs from "fs";
 import path from "path";
 import { Request, Response } from "express";
 import { LeanDocument } from "mongoose";
-import Album, {
-  IAlbum,
-  TAlbumBody,
-  TAlbum,
-  TAlbumReq,
-  TPhotographCreateAndAddToAlbumReq,
-} from "../models/album";
+import Album, { IAlbum, TAlbumBody, TAlbum } from "../models/album";
 import Photograph, { TPhotograph } from "../models/photograph";
 import {
   upadteAlbumAction,
@@ -17,7 +11,6 @@ import {
 } from "./actions/albums";
 import { AWS_GALLERY_ROOT } from "./images";
 import { deleteImageAWS } from "./actions/images";
-const ObjectID = require("mongodb").ObjectID;
 
 export const convertAlbum = (album: LeanDocument<IAlbum>): TAlbum => ({
   id: album._id,
@@ -84,7 +77,6 @@ export const createManyPhotographsAndAddToAlbum = async (
       { _id: req.params.id },
       album
     );
-    console.log("OK");
     res.send(oldAlbum);
   } catch (err) {
     console.log(err);
@@ -92,21 +84,17 @@ export const createManyPhotographsAndAddToAlbum = async (
 };
 
 export const deleteAlbum = (req: Request, res: Response) => {
-  // TODO: Delete all the file from the album
   Album.findByIdAndRemove({ _id: req.params.id })
     .then(async (album) => {
       if (album) {
         const photos = await Photograph.find({ _id: album.photos });
         Photograph.deleteMany({ _id: album.photos })
-          .then((response) => {
-            const rootPath = path.dirname(require.main?.filename ?? "");
+          .then(() => {
             photos.forEach(async (photo) => {
               const key = photo.path.split(AWS_GALLERY_ROOT)[1];
               try {
-                console.log("UPLOADING ===========> ", key);
                 await deleteImageAWS({ key });
               } catch (e) {
-                console.log("ERROR ===========> ", e);
                 throw Error(e);
               }
             });
