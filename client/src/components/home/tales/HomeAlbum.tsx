@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { useContext, useEffect } from "react";
 import { useHistory } from "react-router";
@@ -17,7 +17,8 @@ const HomeAlbum: React.FC<HomeAlbumProps> = observer(() => {
   }, [store]);
 
   const newestAlbum = store.albums[0];
-  if (!newestAlbum?.coverPhoto?.path) return <CircularProgress />;
+  if (!newestAlbum?.coverPhoto?.path)
+    return <Typography color="textPrimary">Brak nowych albumów</Typography>;
   return (
     <ImgStyled
       src={newestAlbum.coverPhoto?.path}

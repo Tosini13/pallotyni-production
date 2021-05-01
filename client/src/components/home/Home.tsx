@@ -25,33 +25,32 @@ const Home: React.FC<HomeProps> = () => {
         <MainGridStyled
           item
           md={breakpoints.md}
-          alignItems="center"
           style={{
             textAlign: "center",
           }}
         >
-          <TitleTypography>Najnowszy Album</TitleTypography>
+          <TitleTypography>{"Najnowszy Album"}</TitleTypography>
           <HomeAlbum />
         </MainGridStyled>
         <Grid item>
           <Divider orientation="vertical" />
         </Grid>
         <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>Msze Św.</TitleTypography>
+          <TitleTypography>{"Msze św"}</TitleTypography>
           <HomeServices />
         </MainGridStyled>
       </Grid>
       <Divider style={{ margin: "20px 0px" }} />
       <Grid container justify="space-around">
         <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>Najnowsze Wydarzenia</TitleTypography>
+          <TitleTypography>{"Aktualności"}</TitleTypography>
           <HomeNews />
         </MainGridStyled>
         <Grid item>
           <Divider orientation="vertical" />
         </Grid>
         <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>Spowiedź</TitleTypography>
+          <TitleTypography>{"Spowiedź Święta"}</TitleTypography>
           <HomeConfessions />
         </MainGridStyled>
       </Grid>

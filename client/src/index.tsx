@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -12,28 +12,32 @@ import { ConfessionStoreProvider } from "./stores/ConfessionStore";
 import { ParagraphStoreProvider } from "./stores/AboutUsStore";
 import { AlbumStoreProvider } from "./stores/GalleryStore";
 import { AuthStoreProvider } from "./stores/AuthStore";
+import { LanguageProvider } from "./stores/LanguageStore";
+import "./lang/i18n";
 require("dotenv").config();
 
 ReactDOM.render(
-  <ThemeProvider theme={mainTheme}>
-    <AuthStoreProvider>
-      <StylesProvider injectFirst>
-        <NewStoreProvider>
-          <ServiceStoreProvider>
-            <ConfessionStoreProvider>
-              <AlbumStoreProvider>
-                <PhotosStoreProvider>
-                  <ParagraphStoreProvider>
-                    <App />
-                  </ParagraphStoreProvider>
-                </PhotosStoreProvider>
-              </AlbumStoreProvider>
-            </ConfessionStoreProvider>
-          </ServiceStoreProvider>
-        </NewStoreProvider>
-      </StylesProvider>
-    </AuthStoreProvider>
-  </ThemeProvider>,
+  <LanguageProvider>
+    <ThemeProvider theme={mainTheme}>
+      <AuthStoreProvider>
+        <StylesProvider injectFirst>
+          <NewStoreProvider>
+            <ServiceStoreProvider>
+              <ConfessionStoreProvider>
+                <AlbumStoreProvider>
+                  <PhotosStoreProvider>
+                    <ParagraphStoreProvider>
+                      <App />
+                    </ParagraphStoreProvider>
+                  </PhotosStoreProvider>
+                </AlbumStoreProvider>
+              </ConfessionStoreProvider>
+            </ServiceStoreProvider>
+          </NewStoreProvider>
+        </StylesProvider>
+      </AuthStoreProvider>
+    </ThemeProvider>
+  </LanguageProvider>,
   document.getElementById("root")
 );
 

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { observer } from "mobx-react";
 import { NewStoreContext } from "../../../stores/NewsStore";
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 export interface HomeNewsProps {}
 
@@ -13,9 +13,18 @@ const HomeNews: React.FC<HomeNewsProps> = observer(() => {
   return (
     <>
       {newsStore.getLatestNews(1).map((news) => (
-        <Typography color="textPrimary">
-          {news.title} - {news.content}
-        </Typography>
+        <Grid container direction="column" spacing={2} key={news.id}>
+          <Grid item>
+            <Typography color="textPrimary" variant="h6" align="center">
+              {news.title}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography color="textPrimary" align="justify">
+              {news.content}
+            </Typography>
+          </Grid>
+        </Grid>
       ))}
     </>
   );
