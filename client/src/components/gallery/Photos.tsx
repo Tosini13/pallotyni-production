@@ -17,11 +17,12 @@ import RCButtonsCUD, {
   ACTION_MODE,
   useCUD,
 } from "../../componentsReusable/ButtonsCUD";
-import { TitleTypography } from "../../style/MainStyled";
+import useAction from "../../helpers/useAction";
 
 export interface GalleryProps {}
 
 const Gallery: React.FC<GalleryProps> = observer(() => {
+  const { isProcessing, execute } = useAction();
   const { id: albumId } = useParams<{
     id: Id;
   }>();
@@ -115,12 +116,15 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
       <QuestionDialogDelete
         open={Boolean(selectedPhoto && isDelete)}
         handleNo={handleClearActionsSD}
-        handleYes={() => {
+        handleYes={async () => {
           if (selectedPhoto) {
-            storePhotos.removePhoto({ photograph: selectedPhoto, albumId });
+            await execute(
+              storePhotos.removePhoto({ photograph: selectedPhoto, albumId })
+            );
             handleClearActionsSD();
           }
         }}
+        isProcessing={isProcessing}
       />
     </MainLayout>
   );

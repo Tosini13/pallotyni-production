@@ -1,16 +1,16 @@
 import { useContext, useEffect } from "react";
-import {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-} from "@material-ui/core";
+import { DialogActions, DialogContent, Grid } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { ButtonSuccess, ButtonError } from "../../componentsReusable/Buttons";
-import { DialogStyled, RCDialogTitle } from "../../componentsReusable/Dialogs";
+import {
+  DialogCircularProgress,
+  DialogStyled,
+  RCDialogTitle,
+} from "../../componentsReusable/Dialogs";
 import TextFieldC from "../../componentsReusable/Forms";
 import { TAlbum, TAlbumCreate } from "../../models/Album";
 import { AlbumStoreContext } from "../../stores/GalleryStore";
+import useAction from "../../helpers/useAction";
 
 export interface AlbumFormProps {
   open: boolean;
@@ -23,6 +23,7 @@ const AlbumForm: React.FC<AlbumFormProps> = ({
   handleClose,
   selectedAlbum,
 }) => {
+  const { isProcessing, execute } = useAction();
   const store = useContext(AlbumStoreContext);
   const { register, handleSubmit, reset } = useForm<TAlbumCreate>();
 
@@ -38,14 +39,16 @@ const AlbumForm: React.FC<AlbumFormProps> = ({
     clearForm();
   };
 
-  const onSubmit = (data: TAlbumCreate) => {
+  const onSubmit = async (data: TAlbumCreate) => {
     if (selectedAlbum) {
-      store.updateAlbum({
-        ...data,
-        id: selectedAlbum.id,
-      });
+      await execute(
+        store.updateAlbum({
+          ...data,
+          id: selectedAlbum.id,
+        })
+      );
     } else {
-      store.createAlbum(data);
+      await execute(store.createAlbum(data));
     }
     handleCloseForm();
   };
@@ -55,7 +58,7 @@ const AlbumForm: React.FC<AlbumFormProps> = ({
   }, [reset, selectedAlbum]);
 
   return (
-    <DialogStyled open={open} onClose={handleCloseForm}>
+    <DialogStyled open={open}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <RCDialogTitle>
           {selectedAlbum ? "Edycja" : "Tworzenie"} Albumu
@@ -81,9 +84,14 @@ const AlbumForm: React.FC<AlbumFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">Zapisz </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
+          <ButtonSuccess type="submit" disabled={isProcessing}>
+            Zapisz{" "}
+          </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm} disabled={isProcessing}>
+            Anuluj
+          </ButtonError>
         </DialogActions>
+        {isProcessing ? <DialogCircularProgress color="secondary" /> : null}
       </form>
     </DialogStyled>
   );

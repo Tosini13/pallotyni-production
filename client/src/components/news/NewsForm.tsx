@@ -1,16 +1,16 @@
 import { useContext, useEffect } from "react";
-import {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-} from "@material-ui/core";
+import { DialogActions, DialogContent, Grid } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { ButtonSuccess, ButtonError } from "../../componentsReusable/Buttons";
-import { DialogStyled, RCDialogTitle } from "../../componentsReusable/Dialogs";
+import {
+  DialogCircularProgress,
+  DialogStyled,
+  RCDialogTitle,
+} from "../../componentsReusable/Dialogs";
 import TextFieldC from "../../componentsReusable/Forms";
 import { TNews, TNewsCreate } from "../../models/News";
 import { NewStoreContext } from "../../stores/NewsStore";
+import useAction from "../../helpers/useAction";
 
 export interface NewsFormProps {
   open: boolean;
@@ -23,6 +23,7 @@ const NewsForm: React.FC<NewsFormProps> = ({
   handleClose,
   selectedNews,
 }) => {
+  const { isProcessing, execute } = useAction();
   const newsStore = useContext(NewStoreContext);
   const { register, handleSubmit, reset } = useForm<TNewsCreate>();
 
@@ -38,15 +39,17 @@ const NewsForm: React.FC<NewsFormProps> = ({
     clearForm();
   };
 
-  const onSubmit = (data: TNewsCreate) => {
+  const onSubmit = async (data: TNewsCreate) => {
     if (selectedNews) {
-      newsStore.updateNews({
-        ...data,
-        id: selectedNews.id,
-        createdAt: selectedNews.createdAt,
-      });
+      await execute(
+        newsStore.updateNews({
+          ...data,
+          id: selectedNews.id,
+          createdAt: selectedNews.createdAt,
+        })
+      );
     } else {
-      newsStore.createNews(data);
+      await execute(newsStore.createNews(data));
     }
     handleCloseForm();
   };
@@ -77,9 +80,14 @@ const NewsForm: React.FC<NewsFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">Zapisz </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
+          <ButtonSuccess type="submit" disabled={isProcessing}>
+            Zapisz{" "}
+          </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm} disabled={isProcessing}>
+            Anuluj
+          </ButtonError>
         </DialogActions>
+        {isProcessing ? <DialogCircularProgress color="secondary" /> : null}
       </form>
     </DialogStyled>
   );

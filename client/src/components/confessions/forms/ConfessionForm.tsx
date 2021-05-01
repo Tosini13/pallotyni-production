@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { DialogActions, DialogContent, Grid } from "@material-ui/core";
 
 import {
+  DialogCircularProgress,
   DialogStyled,
   RCDialogTitle,
 } from "../../../componentsReusable/Dialogs";
@@ -20,6 +21,7 @@ import {
   ButtonSuccess,
 } from "../../../componentsReusable/Buttons";
 import { TCreateConfession } from "../../../models/Confession";
+import useAction from "../../../helpers/useAction";
 
 type TConfessionForm = TCreateConfession;
 
@@ -34,6 +36,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
   selectedConfession,
   handleClose,
 }) => {
+  const { isProcessing, execute } = useAction();
   const sConfession = useContext(ConfessionStoreContext);
   const { register, handleSubmit, reset } = useForm<TConfessionForm>();
 
@@ -59,33 +62,37 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
     handleClose();
   };
 
-  const onSubmit = (data: TConfessionForm) => {
+  const onSubmit = async (data: TConfessionForm) => {
     console.log(data);
     if (selectedConfession) {
-      sConfession.updateConfession({
-        title: data.title,
-        priest: data.priest,
-        fromTime: data.fromTime,
-        toTime: data.toTime,
-        days: repeat ? selectedDays : undefined,
-        date:
-          !repeat && selectedDate
-            ? format(selectedDate, DATE_FORMAT)
-            : undefined,
-        id: selectedConfession.id,
-      });
+      await execute(
+        sConfession.updateConfession({
+          title: data.title,
+          priest: data.priest,
+          fromTime: data.fromTime,
+          toTime: data.toTime,
+          days: repeat ? selectedDays : undefined,
+          date:
+            !repeat && selectedDate
+              ? format(selectedDate, DATE_FORMAT)
+              : undefined,
+          id: selectedConfession.id,
+        })
+      );
     } else {
-      sConfession.createConfession({
-        title: data.title,
-        priest: data.priest,
-        fromTime: data.fromTime,
-        toTime: data.toTime,
-        days: repeat ? selectedDays : undefined,
-        date:
-          !repeat && selectedDate
-            ? format(selectedDate, DATE_FORMAT)
-            : undefined,
-      });
+      await execute(
+        sConfession.createConfession({
+          title: data.title,
+          priest: data.priest,
+          fromTime: data.fromTime,
+          toTime: data.toTime,
+          days: repeat ? selectedDays : undefined,
+          date:
+            !repeat && selectedDate
+              ? format(selectedDate, DATE_FORMAT)
+              : undefined,
+        })
+      );
     }
     handleCloseForm();
   };
@@ -167,9 +174,14 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">Zapisz</ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
+          <ButtonSuccess type="submit" disabled={isProcessing}>
+            Zapisz
+          </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm} disabled={isProcessing}>
+            Anuluj
+          </ButtonError>
         </DialogActions>
+        {isProcessing ? <DialogCircularProgress color="secondary" /> : null}
       </form>
     </DialogStyled>
   );

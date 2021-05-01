@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  CircularProgress,
   DialogActions,
   DialogContent,
   Grid,
@@ -9,10 +10,15 @@ import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TCreatePhotographAndImage } from "../../models/Photograph";
-import { DialogStyled, RCDialogTitle } from "../../componentsReusable/Dialogs";
+import {
+  DialogCircularProgress,
+  DialogStyled,
+  RCDialogTitle,
+} from "../../componentsReusable/Dialogs";
 import { PhotosStoreContext } from "../../stores/PhotographsStore";
 import { Album, AlbumStoreContext } from "../../stores/GalleryStore";
 import { mainTheme } from "../../style/config";
+import useAction from "../../helpers/useAction";
 
 const TypographyButton = styled(Typography)`
   padding: 10px;
@@ -61,6 +67,7 @@ const PhotosForm: React.FC<PhotosFormProps> = ({
 }) => {
   const albumStore = useContext(AlbumStoreContext);
   const photoStore = useContext(PhotosStoreContext);
+  const { isProcessing, execute } = useAction();
   const { handleSubmit, reset } = useForm<TPhotographForm>();
   const [imageError, setImageError] = useState(false);
 
@@ -74,17 +81,21 @@ const PhotosForm: React.FC<PhotosFormProps> = ({
     }
   };
 
-  const onSubmit = async (data: TPhotographForm) => {
+  const onSubmit = async () => {
     if (!images) {
       setImageError(true);
     } else {
       try {
-        const paths = await photoStore.createManyPhotos({ imageFiles: images });
+        const paths = await execute<string[] | undefined>(
+          photoStore.createManyPhotos({ imageFiles: images })
+        );
         if (paths) {
-          albumStore.addPhotos({
-            albumId: selectedAlbum.id,
-            photosPaths: paths,
-          });
+          await execute(
+            albumStore.addPhotos({
+              albumId: selectedAlbum.id,
+              photosPaths: paths,
+            })
+          );
           handleCloseForm();
           return true;
         }
@@ -113,7 +124,7 @@ const PhotosForm: React.FC<PhotosFormProps> = ({
   };
 
   return (
-    <DialogStyled open={open} onClose={handleCloseForm}>
+    <DialogStyled open={open}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <RCDialogTitle>Add Photographs to Album</RCDialogTitle>
         <DialogContent>
@@ -147,9 +158,14 @@ const PhotosForm: React.FC<PhotosFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">Save</ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Cancel</ButtonError>
+          <ButtonSuccess type="submit" disabled={isProcessing}>
+            Save
+          </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm} disabled={isProcessing}>
+            Cancel
+          </ButtonError>
         </DialogActions>
+        {isProcessing ? <DialogCircularProgress color="secondary" /> : null}
       </form>
     </DialogStyled>
   );

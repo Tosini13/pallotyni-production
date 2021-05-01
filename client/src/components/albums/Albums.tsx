@@ -16,6 +16,7 @@ import RCButtonsCUD, {
   ACTION_MODE,
   useCUD,
 } from "../../componentsReusable/ButtonsCUD";
+import useAction from "../../helpers/useAction";
 
 const ImgStyled = styled.img<{ action?: string; hovered?: string }>`
   height: 150px;
@@ -38,6 +39,7 @@ const ImgStyled = styled.img<{ action?: string; hovered?: string }>`
 export interface AlbumsProps {}
 
 const Albums: React.FC<AlbumsProps> = observer(() => {
+  const { isProcessing, execute } = useAction();
   const router = useHistory();
   const store = useContext(AlbumStoreContext);
 
@@ -129,12 +131,13 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
       <QuestionDialogDelete
         open={Boolean(selectedAlbum && isDelete)}
         handleNo={handleClearActionsSD}
-        handleYes={() => {
+        handleYes={async () => {
           if (selectedAlbum) {
-            store.deleteAlbum(selectedAlbum);
+            await execute(store.deleteAlbum(selectedAlbum));
             handleClearActionsSD();
           }
         }}
+        isProcessing={isProcessing}
       />
     </MainLayout>
   );

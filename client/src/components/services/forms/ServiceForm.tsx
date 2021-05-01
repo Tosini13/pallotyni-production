@@ -6,6 +6,7 @@ import {
   ButtonSuccess,
 } from "../../../componentsReusable/Buttons";
 import {
+  DialogCircularProgress,
   DialogStyled,
   RCDialogTitle,
 } from "../../../componentsReusable/Dialogs";
@@ -15,6 +16,7 @@ import { DATE_FORMAT, Day } from "../../../models/Global";
 import { format } from "date-fns";
 import DatePickerSwitch from "./DatePickerSwitch";
 import { TServiceCreate } from "../../../models/Service";
+import useAction from "../../../helpers/useAction";
 
 type TServiceForm = TServiceCreate;
 
@@ -29,6 +31,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
   handleClose,
   selectedService,
 }) => {
+  const { isProcessing, execute } = useAction();
   const sStore = useContext(ServiceStoreContext);
   const { register, handleSubmit, reset } = useForm<TServiceForm>();
 
@@ -52,33 +55,37 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
     clearForm();
   };
 
-  const onSubmit = (data: TServiceForm) => {
+  const onSubmit = async (data: TServiceForm) => {
     if (repeat && !selectedDays.length) {
       console.log("select Days!");
     }
     if (selectedService) {
-      sStore.updateService({
-        title: data.title,
-        priest: data.priest,
-        time: data.time,
-        days: repeat ? selectedDays : undefined,
-        date:
-          !repeat && selectedDate
-            ? format(selectedDate, DATE_FORMAT)
-            : undefined,
-        id: selectedService.id,
-      });
+      await execute(
+        sStore.updateService({
+          title: data.title,
+          priest: data.priest,
+          time: data.time,
+          days: repeat ? selectedDays : undefined,
+          date:
+            !repeat && selectedDate
+              ? format(selectedDate, DATE_FORMAT)
+              : undefined,
+          id: selectedService.id,
+        })
+      );
     } else {
-      sStore.createService({
-        title: data.title,
-        priest: data.priest,
-        time: data.time,
-        days: repeat ? selectedDays : undefined,
-        date:
-          !repeat && selectedDate
-            ? format(selectedDate, DATE_FORMAT)
-            : undefined,
-      });
+      await execute(
+        sStore.createService({
+          title: data.title,
+          priest: data.priest,
+          time: data.time,
+          days: repeat ? selectedDays : undefined,
+          date:
+            !repeat && selectedDate
+              ? format(selectedDate, DATE_FORMAT)
+              : undefined,
+        })
+      );
     }
     handleCloseForm();
   };
@@ -144,9 +151,14 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">Zapisz</ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
+          <ButtonSuccess type="submit" disabled={isProcessing}>
+            Zapisz
+          </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm} disabled={isProcessing}>
+            Anuluj
+          </ButtonError>
         </DialogActions>
+        {isProcessing ? <DialogCircularProgress color="secondary" /> : null}
       </form>
     </DialogStyled>
   );
