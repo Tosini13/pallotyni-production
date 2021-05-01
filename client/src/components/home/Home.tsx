@@ -1,16 +1,11 @@
 import MainLayout from "../layout/MainLayout";
 import BackgroundImg from "../../resources/images/background_main.jpg";
-import { Divider, Grid, GridSize } from "@material-ui/core";
+import { Divider, Grid, Hidden } from "@material-ui/core";
 import HomeServices from "./tales/HomeServices";
 import HomeNews from "./tales/HomeNews";
 import HomeConfessions from "./tales/HomeConfession";
 import HomeAlbum from "./tales/HomeAlbum";
-import { MainGridStyled, TitleTypography } from "../../style/MainStyled";
-
-const breakpoints = {
-  md: 5 as GridSize,
-  xs: 12 as GridSize,
-};
+import { MainGridStyled } from "../../style/MainStyled";
 
 export interface HomeProps {}
 
@@ -21,39 +16,48 @@ const Home: React.FC<HomeProps> = () => {
       title="Parafia p.w. św. Jana Ewangelisty w Szczecinie"
       subtitle="Kościół Pallotynów"
     >
-      <Grid container justify="space-around">
-        <MainGridStyled
-          item
-          md={breakpoints.md}
-          style={{
-            textAlign: "center",
-          }}
-        >
-          <TitleTypography>{"Najnowszy Album"}</TitleTypography>
+      <Hidden smDown>
+        <Grid container justify="space-around">
+          <MainGridStyled
+            item
+            xs={5}
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <HomeAlbum />
+          </MainGridStyled>
+          <Grid item>
+            <Divider orientation={"vertical"} />
+          </Grid>
+          <MainGridStyled item xs={5}>
+            <HomeServices />
+          </MainGridStyled>
+        </Grid>
+        <Divider style={{ margin: "20px 0px" }} />
+        <Grid container justify="space-around">
+          <MainGridStyled item xs={5}>
+            <HomeNews />
+          </MainGridStyled>
+          <Grid item>
+            <Divider orientation={"vertical"} />
+          </Grid>
+          <MainGridStyled item xs={5}>
+            <HomeConfessions />
+          </MainGridStyled>
+        </Grid>
+      </Hidden>
+      <Hidden mdUp>
+        <div style={{ padding: "0px 5px" }}>
           <HomeAlbum />
-        </MainGridStyled>
-        <Grid item>
-          <Divider orientation="vertical" />
-        </Grid>
-        <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>{"Msze św"}</TitleTypography>
+          <Divider style={{ margin: "20px" }} />
           <HomeServices />
-        </MainGridStyled>
-      </Grid>
-      <Divider style={{ margin: "20px 0px" }} />
-      <Grid container justify="space-around">
-        <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>{"Aktualności"}</TitleTypography>
+          <Divider style={{ margin: "20px" }} />
           <HomeNews />
-        </MainGridStyled>
-        <Grid item>
-          <Divider orientation="vertical" />
-        </Grid>
-        <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>{"Spowiedź Święta"}</TitleTypography>
+          <Divider style={{ margin: "20px" }} />
           <HomeConfessions />
-        </MainGridStyled>
-      </Grid>
+        </div>
+      </Hidden>
     </MainLayout>
   );
 };
