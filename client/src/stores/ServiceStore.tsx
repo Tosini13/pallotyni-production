@@ -1,6 +1,7 @@
 import React from "react";
 import { action, computed, makeObservable, observable } from "mobx";
 import { format, isBefore, isSameMinute } from "date-fns";
+import { pl } from "date-fns/locale";
 
 import { createContext } from "react";
 import { DATE_FORMAT, Day } from "../models/Global";
@@ -18,9 +19,9 @@ export class Service {
   priest: string;
 
   get show() {
-    return `${this.date ? format(new Date(this.date), DATE_FORMAT) : ""} ${
-      this.time
-    } - ${this.title}, ${this.priest}`;
+    return `${
+      this.date ? format(new Date(this.date), DATE_FORMAT, { locale: pl }) : ""
+    } ${this.time} - ${this.title}, ${this.priest}`;
   }
 
   constructor({ id, title, time, days, date, priest }: TService) {

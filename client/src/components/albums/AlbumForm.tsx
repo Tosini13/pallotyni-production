@@ -57,14 +57,16 @@ const AlbumForm: React.FC<AlbumFormProps> = ({
   return (
     <DialogStyled open={open} onClose={handleCloseForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <RCDialogTitle>{selectedAlbum ? "Edit" : "Create"} Album</RCDialogTitle>
+        <RCDialogTitle>
+          {selectedAlbum ? "Edycja" : "Tworzenie"} Albumu
+        </RCDialogTitle>
         <DialogContent>
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <TextFieldC
                 inputRef={register}
                 name="title"
-                label="title"
+                label="Tytuł"
                 color="secondary"
               />
             </Grid>
@@ -73,16 +75,14 @@ const AlbumForm: React.FC<AlbumFormProps> = ({
                 multiline
                 inputRef={register}
                 name="description"
-                label="description"
+                label="Opis"
               />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">
-            {selectedAlbum ? "Update" : "Create"}
-          </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Cancel</ButtonError>
+          <ButtonSuccess type="submit">Zapisz </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
         </DialogActions>
       </form>
     </DialogStyled>

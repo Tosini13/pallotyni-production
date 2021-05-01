@@ -1,11 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-} from "@material-ui/core";
+import { DialogActions, DialogContent, Grid } from "@material-ui/core";
 import {
   ButtonError,
   ButtonSuccess,
@@ -61,7 +56,6 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
     if (repeat && !selectedDays.length) {
       console.log("select Days!");
     }
-    console.log("submit", selectedService);
     if (selectedService) {
       sStore.updateService({
         title: data.title,
@@ -102,7 +96,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
     <DialogStyled open={open} onClose={handleCloseForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <RCDialogTitle>
-          {selectedService ? "Edit" : "Create"} Service
+          {selectedService ? "Edycja" : "Tworzenie"} Mszy Świętej
         </RCDialogTitle>
         <DialogContent>
           <Grid container spacing={2} alignItems="center">
@@ -111,7 +105,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                 required
                 inputRef={register}
                 name="title"
-                label="Title"
+                label="Tytuł"
               />
             </Grid>
             <Grid item md={6}>
@@ -119,7 +113,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                 multiline
                 inputRef={register}
                 name="priest"
-                label="Priest"
+                label="Ksiądz"
               />
             </Grid>
             <DatePickerSwitch
@@ -134,7 +128,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
             <Grid item md={3}>
               <TextFieldC
                 required
-                label="Time"
+                label="Czas"
                 type="time"
                 defaultValue={"12:00"}
                 InputLabelProps={{
@@ -150,10 +144,8 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">
-            {selectedService ? "Update" : "Create"}
-          </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Cancel</ButtonError>
+          <ButtonSuccess type="submit">Zapisz</ButtonSuccess>
+          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
         </DialogActions>
       </form>
     </DialogStyled>

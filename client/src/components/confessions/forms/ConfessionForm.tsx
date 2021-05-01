@@ -103,7 +103,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
     <DialogStyled open={open} onClose={handleCloseForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <RCDialogTitle>
-          {selectedConfession ? "Edit" : "Create"} Confession
+          {selectedConfession ? "Edycja" : "Tworzenie"} Spowiedzi
         </RCDialogTitle>
         <DialogContent>
           <Grid container spacing={2} alignItems="center">
@@ -112,7 +112,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
                 required
                 inputRef={register}
                 name="title"
-                label="Title"
+                label="Tytuł"
               />
             </Grid>
             <Grid item md={6}>
@@ -120,7 +120,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
                 multiline
                 inputRef={register}
                 name="priest"
-                label="Priest"
+                label="Ksiądz"
               />
             </Grid>
             <DatePickerSwitch
@@ -135,7 +135,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
             <Grid item md={3}>
               <TextFieldC
                 required
-                label="From time"
+                label="Rozpoczęcie"
                 type="time"
                 defaultValue={"12:00"}
                 InputLabelProps={{
@@ -151,7 +151,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
             <Grid item md={3}>
               <TextFieldC
                 required
-                label="To time"
+                label="Zakończenie"
                 type="time"
                 defaultValue={"12:00"}
                 InputLabelProps={{
@@ -167,10 +167,8 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">
-            {selectedConfession ? "Update" : "Create"}
-          </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Cancel</ButtonError>
+          <ButtonSuccess type="submit">Zapisz</ButtonSuccess>
+          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
         </DialogActions>
       </form>
     </DialogStyled>

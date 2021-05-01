@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
-import { Grid } from "@material-ui/core";
+import { CircularProgress, Grid, Typography } from "@material-ui/core";
 
 import { Photograph, PhotosStoreContext } from "../../stores/PhotographsStore";
 import PhotoDetails from "./PhotoDetails";
-import QuestionDialog from "../../componentsReusable/Dialogs";
-import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
+import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
 import PhotoSummary from "./PhotoSummary";
 import PhotoForm from "./PhotoForm";
 import BackgroundImg from "../../resources/images/church_cross.png";
@@ -18,6 +17,7 @@ import RCButtonsCUD, {
   ACTION_MODE,
   useCUD,
 } from "../../componentsReusable/ButtonsCUD";
+import { TitleTypography } from "../../style/MainStyled";
 
 export interface GalleryProps {}
 
@@ -49,9 +49,17 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
     setActionMode(undefined);
   };
 
+  const currentAlbum = storeAlbum.albums.find((album) => album.id === albumId);
+  if (!currentAlbum)
+    return (
+      <MainLayout img={BackgroundImg} title="Gallery">
+        <CircularProgress />
+      </MainLayout>
+    );
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
-    <MainLayout img={BackgroundImg} title="Gallery">
+    <MainLayout img={BackgroundImg} title={currentAlbum.title}>
+      <Typography color="textPrimary">{currentAlbum.description}</Typography>
       {IS_ADMIN_TEMP ? (
         <RCButtonsCUD
           mode={actionMode}
@@ -90,23 +98,16 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
         selectedPhotograph={selectedPhoto}
         handleClose={handleClearActionsSD}
       />
-      <QuestionDialog
+      <QuestionDialogDelete
         open={Boolean(selectedPhoto && isDelete)}
-        handleClose={handleClearActionsSD}
-        title="Do you want to delete?"
-      >
-        <ButtonSuccess
-          onClick={() => {
-            if (selectedPhoto) {
-              storePhotos.removePhoto({ photograph: selectedPhoto, albumId });
-              handleClearActionsSD();
-            }
-          }}
-        >
-          Yes
-        </ButtonSuccess>
-        <ButtonError onClick={handleClearActionsSD}>No</ButtonError>
-      </QuestionDialog>
+        handleNo={handleClearActionsSD}
+        handleYes={() => {
+          if (selectedPhoto) {
+            storePhotos.removePhoto({ photograph: selectedPhoto, albumId });
+            handleClearActionsSD();
+          }
+        }}
+      />
     </MainLayout>
   );
 });

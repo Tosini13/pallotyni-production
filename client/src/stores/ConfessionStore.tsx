@@ -5,6 +5,7 @@ import axios from "axios";
 import { CONFESSIONS_API_URL } from "../models/const";
 import { TConfession, TCreateConfession } from "../models/Confession";
 import { isSameDay, isAfter, format } from "date-fns";
+import { pl } from "date-fns/locale";
 const add = require("date-fns/add");
 const isBefore = require("date-fns/isBefore");
 const isSameMinute = require("date-fns/isSameMinute");
@@ -20,7 +21,9 @@ export class Confession {
   priest: string;
 
   get show() {
-    return `${this.date ? format(new Date(this.date), DATE_FORMAT) : ""}
+    return `${
+      this.date ? format(new Date(this.date), DATE_FORMAT, { locale: pl }) : ""
+    }
     ${this.fromTime} - ${this.toTime}: ${this.title}, ${this.priest}`;
   }
 

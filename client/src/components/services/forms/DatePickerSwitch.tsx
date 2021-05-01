@@ -1,6 +1,4 @@
-import { useState } from "react";
 import "date-fns";
-import { format } from "date-fns";
 
 import { DATE_FORMAT, Day } from "../../../models/Global";
 import styled from "styled-components";
@@ -13,6 +11,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import DayPicker from "./DayPicker";
 import { inputStyle } from "../../../componentsReusable/Forms";
 import { mainTheme } from "../../../style/config";
+import { pl } from "date-fns/locale";
 
 const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
   ${inputStyle}
@@ -61,7 +60,7 @@ const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
           checked={repeat}
           name="repeat"
           control={<Switch color="secondary" checked={repeat} />}
-          label="Repeat"
+          label="Przełącz wybór"
           labelPlacement="end"
           inputRef={register}
           onClick={() => setRepeat(!repeat)}
@@ -71,10 +70,10 @@ const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
         {repeat ? (
           <DayPicker selected={selectedDays} handleSelect={handleSelect} />
         ) : (
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pl}>
             <KeyboardDatePickerStyled
               color="secondary"
-              label="Date picker dialog"
+              label="Wybierz datę"
               format={DATE_FORMAT}
               value={selectedDate}
               onChange={handleDateChange}

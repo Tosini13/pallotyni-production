@@ -8,8 +8,7 @@ import { mainTheme } from "../../style/config";
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
 import { Grid, GridSize, Typography } from "@material-ui/core";
 import ServiceForm from "./forms/ServiceForm";
-import QuestionDialog from "../../componentsReusable/Dialogs";
-import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
+import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
 import MainLayout from "../layout/MainLayout";
 import BackgroundImg from "../../resources/images/church_cross.png";
 import { MainGridStyled, TitleTypography } from "../../style/MainStyled";
@@ -17,6 +16,7 @@ import RCButtonsCUD, {
   ACTION_MODE,
   useCUD,
 } from "../../componentsReusable/ButtonsCUD";
+import { translateDays } from "../../helpers/temp_translations";
 
 const breakpoints = {
   md: 5 as GridSize,
@@ -115,7 +115,7 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
                     color="textPrimary"
                     style={{ fontWeight: "bold" }}
                   >
-                    {day}
+                    {translateDays(day)}
                   </Typography>
                 </Grid>
                 {services.map((service) => (
@@ -167,23 +167,16 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
         selectedService={isDelete ? undefined : selectedService}
         handleClose={handleClearActionsSD}
       />
-      <QuestionDialog
+      <QuestionDialogDelete
         open={Boolean(selectedService && isDelete)}
-        handleClose={handleClearActionsSD}
-        title="Do you want to delete?"
-      >
-        <ButtonSuccess
-          onClick={() => {
-            if (selectedService) {
-              storeServices.removeService(selectedService);
-              handleClearActionsSD();
-            }
-          }}
-        >
-          Yes
-        </ButtonSuccess>
-        <ButtonError onClick={handleClearActionsSD}>No</ButtonError>
-      </QuestionDialog>
+        handleNo={handleClearActionsSD}
+        handleYes={() => {
+          if (selectedService) {
+            storeServices.removeService(selectedService);
+            handleClearActionsSD();
+          }
+        }}
+      />
     </MainLayout>
   );
 });

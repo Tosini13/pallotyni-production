@@ -6,8 +6,7 @@ import {
   ConfessionStoreContext,
 } from "../../stores/ConfessionStore";
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
-import QuestionDialog from "../../componentsReusable/Dialogs";
-import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
+import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
 import ConfessionForm from "./forms/ConfessionForm";
 import { observer } from "mobx-react";
 import { TypographySelectableStyled } from "../services/ServicesView";
@@ -19,6 +18,7 @@ import RCButtonsCUD, {
   ACTION_MODE,
   useCUD,
 } from "../../componentsReusable/ButtonsCUD";
+import { translateDays } from "../../helpers/temp_translations";
 
 const breakpoints = {
   md: 5 as GridSize,
@@ -92,7 +92,7 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
                     color="textPrimary"
                     style={{ fontWeight: "bold" }}
                   >
-                    {day}
+                    {translateDays(day)}
                   </Typography>
                 </Grid>
                 {confessions.map((confession) => (
@@ -140,23 +140,16 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
         selectedConfession={isDelete ? undefined : selectedConfession}
         handleClose={handleClearActionsSD}
       />
-      <QuestionDialog
+      <QuestionDialogDelete
         open={Boolean(selectedConfession && isDelete)}
-        handleClose={handleClearActionsSD}
-        title="Do you want to delete?"
-      >
-        <ButtonSuccess
-          onClick={() => {
-            if (selectedConfession) {
-              storeConfession.removeConfession(selectedConfession);
-              handleClearActionsSD();
-            }
-          }}
-        >
-          Yes
-        </ButtonSuccess>
-        <ButtonError onClick={handleClearActionsSD}>No</ButtonError>
-      </QuestionDialog>
+        handleNo={handleClearActionsSD}
+        handleYes={() => {
+          if (selectedConfession) {
+            storeConfession.removeConfession(selectedConfession);
+            handleClearActionsSD();
+          }
+        }}
+      />
     </MainLayout>
   );
 });

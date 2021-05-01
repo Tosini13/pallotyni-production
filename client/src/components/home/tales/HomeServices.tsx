@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Grid, Typography } from "@material-ui/core";
 import { ServiceStoreContext } from "../../../stores/ServiceStore";
 import { Day } from "../../../models/Global";
+import { translateDays } from "../../../helpers/temp_translations";
 
 export interface HomeServicesProps {}
 
@@ -17,7 +18,6 @@ const HomeServices: React.FC<HomeServicesProps> = observer(() => {
     <>
       {Object.values(Day).map((day) => {
         const services = storeServices.getServicesByDay(day);
-        console.log(day);
         if (!services.length) {
           return null;
         }
@@ -26,7 +26,7 @@ const HomeServices: React.FC<HomeServicesProps> = observer(() => {
           <Grid container direction="column">
             <Grid item>
               <Typography color="textPrimary" style={{ fontWeight: "bold" }}>
-                {day}
+                {translateDays(day)}
               </Typography>
             </Grid>
             {services.map((service) => (

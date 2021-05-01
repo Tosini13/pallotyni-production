@@ -30,7 +30,6 @@ class Auth {
 
   async logIn({ email, password, failureCallBack }: SignInType & TauthFunc) {
     const res = await signIn({ email, password });
-    console.log("logIn", res);
     if (res === EUserAuth.LOGGED_IN) {
       this.isLoggedIn = true;
     }

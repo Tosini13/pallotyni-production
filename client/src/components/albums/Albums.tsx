@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
 import { CircularProgress, Grid } from "@material-ui/core";
-import QuestionDialog from "../../componentsReusable/Dialogs";
-import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
+import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
 import BackgroundImg from "../../resources/images/church_cross.png";
 import MainLayout from "../layout/MainLayout";
 import { Album, AlbumStoreContext } from "../../stores/GalleryStore";
@@ -127,23 +126,16 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
         selectedAlbum={selectedAlbum}
         handleClose={handleClearActionsSD}
       />
-      <QuestionDialog
+      <QuestionDialogDelete
         open={Boolean(selectedAlbum && isDelete)}
-        handleClose={handleClearActionsSD}
-        title="Czy na pewno chcesz usunąć?"
-      >
-        <ButtonSuccess
-          onClick={() => {
-            if (selectedAlbum) {
-              store.deleteAlbum(selectedAlbum);
-              handleClearActionsSD();
-            }
-          }}
-        >
-          Tak
-        </ButtonSuccess>
-        <ButtonError onClick={handleClearActionsSD}>Nie</ButtonError>
-      </QuestionDialog>
+        handleNo={handleClearActionsSD}
+        handleYes={() => {
+          if (selectedAlbum) {
+            store.deleteAlbum(selectedAlbum);
+            handleClearActionsSD();
+          }
+        }}
+      />
     </MainLayout>
   );
 });

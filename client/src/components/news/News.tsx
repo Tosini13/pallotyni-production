@@ -6,8 +6,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
-import QuestionDialog from "../../componentsReusable/Dialogs";
-import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
+import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
 import { NewStoreContext } from "../../stores/NewsStore";
 import {
   GridActionStyled,
@@ -104,23 +103,16 @@ const News: React.FC<NewsProps> = observer(() => {
         selectedNews={openForm ? selectedNews : undefined}
         handleClose={handleClearActionsSD}
       />
-      <QuestionDialog
+      <QuestionDialogDelete
         open={Boolean(selectedNews && removal)}
-        handleClose={handleClearActionsSD}
-        title="Do you want to delete?"
-      >
-        <ButtonSuccess
-          onClick={() => {
-            if (selectedNews) {
-              newsStore.deleteNews(selectedNews);
-              handleClearActionsSD();
-            }
-          }}
-        >
-          Yes
-        </ButtonSuccess>
-        <ButtonError onClick={handleClearActionsSD}>No</ButtonError>
-      </QuestionDialog>
+        handleNo={handleClearActionsSD}
+        handleYes={() => {
+          if (selectedNews) {
+            newsStore.deleteNews(selectedNews);
+            handleClearActionsSD();
+          }
+        }}
+      />
     </MainLayout>
   );
 });

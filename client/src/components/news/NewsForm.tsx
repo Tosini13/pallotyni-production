@@ -58,27 +58,27 @@ const NewsForm: React.FC<NewsFormProps> = ({
   return (
     <DialogStyled open={open} onClose={handleCloseForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <RCDialogTitle>{selectedNews ? "Edit" : "Create"} News</RCDialogTitle>
+        <RCDialogTitle>
+          {selectedNews ? "Edycja" : "Tworzenie"} Newsa
+        </RCDialogTitle>
         <DialogContent>
           <Grid container direction="column" spacing={2}>
             <Grid item>
-              <TextFieldC inputRef={register} name="title" label="title" />
+              <TextFieldC inputRef={register} name="title" label="Tytuł" />
             </Grid>
             <Grid item>
               <TextFieldC
                 multiline
                 inputRef={register}
                 name="content"
-                label="content"
+                label="Treść"
               />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">
-            {selectedNews ? "Update" : "Create"}
-          </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Cancel</ButtonError>
+          <ButtonSuccess type="submit">Zapisz </ButtonSuccess>
+          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
         </DialogActions>
       </form>
     </DialogStyled>

@@ -66,10 +66,10 @@ const DayPicker: React.FC<DayPickerProps> = ({ selected, handleSelect }) => {
 export default DayPicker;
 
 const daysLabel = new Map();
-daysLabel.set(Day.mon, "mon");
-daysLabel.set(Day.tue, "tue");
-daysLabel.set(Day.wed, "wed");
-daysLabel.set(Day.thu, "thu");
-daysLabel.set(Day.fri, "fri");
-daysLabel.set(Day.sat, "sat");
-daysLabel.set(Day.sun, "sun");
+daysLabel.set(Day.mon, "pon");
+daysLabel.set(Day.tue, "wt");
+daysLabel.set(Day.wed, "śr");
+daysLabel.set(Day.thu, "czw");
+daysLabel.set(Day.fri, "pią");
+daysLabel.set(Day.sat, "sob");
+daysLabel.set(Day.sun, "nie");

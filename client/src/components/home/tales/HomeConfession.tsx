@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Grid, Typography } from "@material-ui/core";
 import { ConfessionStoreContext } from "../../../stores/ConfessionStore";
 import { Day } from "../../../models/Global";
+import { translateDays } from "../../../helpers/temp_translations";
 
 export interface HomeConfessionsProps {}
 
@@ -23,7 +24,7 @@ const HomeConfessions: React.FC<HomeConfessionsProps> = observer(() => {
           <Grid container direction="column">
             <Grid item>
               <Typography color="textPrimary" style={{ fontWeight: "bold" }}>
-                {day}
+                {translateDays(day)}
               </Typography>
             </Grid>
             {confessions.map((confessions) => (
