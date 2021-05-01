@@ -144,11 +144,15 @@ export class ConfessionStore {
     }
   }
 
-  getConfessionsByDay(day: Day) {
-    const selectedConfession = this.confessions.filter((confession) =>
-      confession.days?.includes(day)
-    );
-    return selectedConfession.sort(this.sortByTime);
+  get getConfessionsByDay() {
+    const dailyConfessionsMap = new Map<Day, Confession[]>();
+    Object.values(Day).forEach((day) => {
+      const selectedConfessions = this.confessions.filter((confession) =>
+        confession.days?.includes(day)
+      );
+      dailyConfessionsMap.set(day, selectedConfessions.sort(this.sortByTime));
+    });
+    return dailyConfessionsMap;
   }
 
   get getConfessionsNextWeek() {
@@ -187,7 +191,7 @@ export class ConfessionStore {
       updateConfession: action,
       removeConfession: action,
       getConfessionsByDate: action,
-      getConfessionsByDay: action,
+      getConfessionsByDay: computed,
       getConfessionsNextWeek: computed,
     });
     this.fetch();

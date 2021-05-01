@@ -60,6 +60,7 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
     storeConfession.fetch();
   }, [storeConfession]);
 
+  const dailyConfessionsMap = storeConfession.getConfessionsByDay;
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
     <MainLayout img={BackgroundImg} title="Spowiedź święta">
@@ -81,12 +82,12 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
           <TitleTypography>Spowiedź co tydzień</TitleTypography>
 
           {Object.values(Day).map((day) => {
-            const confessions = storeConfession.getConfessionsByDay(day);
-            if (!confessions.length) {
+            const confessions = dailyConfessionsMap.get(day);
+            if (!confessions?.length) {
               return null;
             }
             return (
-              <Grid container direction="column">
+              <Grid container direction="column" key={day}>
                 <Grid item>
                   <Typography
                     color="textPrimary"
@@ -96,7 +97,11 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
                   </Typography>
                 </Grid>
                 {confessions.map((confession) => (
-                  <Grid item style={{ paddingLeft: "20px" }}>
+                  <Grid
+                    item
+                    style={{ paddingLeft: "20px" }}
+                    key={confession.id}
+                  >
                     <TypographySelectableStyled
                       color="textPrimary"
                       key={confession.id}

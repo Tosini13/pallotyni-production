@@ -33,9 +33,8 @@ export interface TodayConfessionsProps {}
 
 const TodayConfessions: React.FC<TodayConfessionsProps> = () => {
   const confessionsStore = useContext(ConfessionStoreContext);
-  const todayDay = format(new Date(), "EEEE").toUpperCase();
   const todayConfessions = [
-    ...confessionsStore.getConfessionsByDay(todayDay as Day),
+    ...confessionsStore.confessions,
     ...confessionsStore.getConfessionsByDate({
       toDate: format(new Date(), DATE_FORMAT),
     }),

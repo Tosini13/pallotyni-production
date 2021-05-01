@@ -92,7 +92,7 @@ const Login: React.FC<LoginProps> = observer(() => {
               </Grid>
               <Grid item>
                 <LinkStyled to={RoutingPath.resetPassword}>
-                  Zresetuj hasło
+                  Nie pamiętam hasła
                 </LinkStyled>
               </Grid>
             </Grid>

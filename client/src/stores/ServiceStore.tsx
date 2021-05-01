@@ -117,21 +117,15 @@ export class ServiceStore {
     }
   }
 
-  getServicesByDay(day: Day) {
-    const selectedServices = this.services.filter((service) =>
-      service.days?.includes(day)
-    );
-    return selectedServices.sort(this.sortByTime);
-  }
-
-  get getTodayServices(): Service[] {
-    const todayDay = format(new Date(), "EEEE").toUpperCase();
-    return [
-      ...this.getServicesByDay(todayDay as Day),
-      ...this.getServicesByDate({
-        toDate: format(new Date(), DATE_FORMAT),
-      }),
-    ];
+  get getServicesByDay() {
+    const dailyServicesMap = new Map<Day, Service[]>();
+    Object.values(Day).forEach((day) => {
+      const selectedServices = this.services.filter((service) =>
+        service.days?.includes(day)
+      );
+      dailyServicesMap.set(day, selectedServices.sort(this.sortByTime));
+    });
+    return dailyServicesMap;
   }
 
   get getSingleService() {
@@ -159,9 +153,8 @@ export class ServiceStore {
       removeService: action,
       sortByTime: action,
       getServicesByDate: action,
-      getServicesByDay: action,
+      getServicesByDay: computed,
       getSingleService: computed,
-      getTodayServices: computed,
     });
     this.fetch();
   }

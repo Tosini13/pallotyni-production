@@ -84,6 +84,7 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
     }
   };
 
+  const servicesMap = storeServices.getServicesByDay;
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
     <MainLayout img={BackgroundImg} title="Msze święte">
@@ -104,12 +105,12 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
         <MainGridStyled item md={breakpoints.md}>
           <TitleTypography>Msze święte co tydzień</TitleTypography>
           {Object.values(Day).map((day) => {
-            const services = storeServices.getServicesByDay(day);
-            if (!services.length) {
+            const services = servicesMap.get(day);
+            if (!services?.length) {
               return null;
             }
             return (
-              <Grid container direction="column">
+              <Grid container direction="column" key={day}>
                 <Grid item>
                   <Typography
                     color="textPrimary"
@@ -119,7 +120,7 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
                   </Typography>
                 </Grid>
                 {services.map((service) => (
-                  <Grid item style={{ paddingLeft: "20px" }}>
+                  <Grid item style={{ paddingLeft: "20px" }} key={service.id}>
                     <TypographySelectableStyled
                       color="textPrimary"
                       key={service.id}

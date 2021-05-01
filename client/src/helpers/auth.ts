@@ -13,7 +13,6 @@ export type TResetPassword = {
 export const resetPassword = async ({ email }: TResetPassword) => {
   const promise = await new Promise((resolve, rejected) => {
     const user = firebase?.auth().sendPasswordResetEmail(email);
-    console.log("user", user);
     if (user) {
       resolve(EUserAuth.PASSWORD_RESET_SUCCESS);
     } else {

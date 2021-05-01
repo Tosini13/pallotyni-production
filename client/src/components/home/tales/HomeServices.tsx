@@ -14,23 +14,25 @@ const HomeServices: React.FC<HomeServicesProps> = observer(() => {
     storeServices.fetch();
   }, [storeServices]);
   let noServices = true;
+
+  const servicesMap = storeServices.getServicesByDay;
   return (
     <>
       {Object.values(Day).map((day) => {
-        const services = storeServices.getServicesByDay(day);
-        if (!services.length) {
+        const services = servicesMap.get(day);
+        if (!services?.length) {
           return null;
         }
         noServices = false;
         return (
-          <Grid container direction="column">
+          <Grid container direction="column" key={day}>
             <Grid item>
               <Typography color="textPrimary" style={{ fontWeight: "bold" }}>
                 {translateDays(day)}
               </Typography>
             </Grid>
             {services.map((service) => (
-              <Grid item style={{ paddingLeft: "20px" }}>
+              <Grid item style={{ paddingLeft: "20px" }} key={service.id}>
                 <Typography color="textPrimary">
                   {service.time} - {service.title}
                 </Typography>

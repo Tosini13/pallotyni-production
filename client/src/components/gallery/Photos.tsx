@@ -59,36 +59,50 @@ const Gallery: React.FC<GalleryProps> = observer(() => {
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
     <MainLayout img={BackgroundImg} title={currentAlbum.title}>
-      <Typography color="textPrimary">{currentAlbum.description}</Typography>
-      {IS_ADMIN_TEMP ? (
-        <RCButtonsCUD
-          mode={actionMode}
-          handleAdd={() => setActionMode(ACTION_MODE.ADD)}
-          handleEdit={photoExistsAction(() => setActionMode(ACTION_MODE.EDIT))}
-          handleDelete={photoExistsAction(() =>
-            setActionMode(ACTION_MODE.DELETE)
-          )}
-          handleCancel={photoExistsAction(handleClearActionsSD)}
-        />
-      ) : null}
-      <Grid container spacing={2} justify="space-evenly">
-        {storePhotos?.photos.map((photo) => (
-          <React.Fragment key={photo.id}>
-            <Grid
-              item
-              key={photo.id}
-              onClick={() => setSelectedPhoto(photo)}
-              style={{ position: "relative" }}
-            >
-              <PhotoSummary photo={photo} edition={isEdit} removal={isDelete} />
-            </Grid>
-            <PhotoDetails
-              photo={photo}
-              open={photo.id === selectedPhoto?.id && !isDelete && !isEdit}
-              handleClose={() => setSelectedPhoto(undefined)}
+      <Grid container direction="column" spacing={4}>
+        <Grid item>
+          <Typography color="textPrimary">
+            {currentAlbum.description}
+          </Typography>
+        </Grid>
+        <Grid item>
+          {IS_ADMIN_TEMP ? (
+            <RCButtonsCUD
+              mode={actionMode}
+              handleAdd={() => setActionMode(ACTION_MODE.ADD)}
+              handleEdit={photoExistsAction(() =>
+                setActionMode(ACTION_MODE.EDIT)
+              )}
+              handleDelete={photoExistsAction(() =>
+                setActionMode(ACTION_MODE.DELETE)
+              )}
+              handleCancel={photoExistsAction(handleClearActionsSD)}
             />
-          </React.Fragment>
-        ))}
+          ) : null}
+          <Grid container spacing={2} justify="space-evenly">
+            {storePhotos?.photos.map((photo) => (
+              <React.Fragment key={photo.id}>
+                <Grid
+                  item
+                  key={photo.id}
+                  onClick={() => setSelectedPhoto(photo)}
+                  style={{ position: "relative" }}
+                >
+                  <PhotoSummary
+                    photo={photo}
+                    edition={isEdit}
+                    removal={isDelete}
+                  />
+                </Grid>
+                <PhotoDetails
+                  photo={photo}
+                  open={photo.id === selectedPhoto?.id && !isDelete && !isEdit}
+                  handleClose={() => setSelectedPhoto(undefined)}
+                />
+              </React.Fragment>
+            ))}
+          </Grid>
+        </Grid>
       </Grid>
       <PhotoForm
         albumId={albumId}

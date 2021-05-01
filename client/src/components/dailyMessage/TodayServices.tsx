@@ -37,7 +37,7 @@ const TodayServices: React.FC<TodayServicesProps> = observer(() => {
 
   const todayDay = format(new Date(), "EEEE").toUpperCase();
   console.log("TodayServices - todayDay", todayDay);
-  const todayServices = servicesStore.getTodayServices;
+  const todayServices = servicesStore.services;
   console.log("TodayServices - todayServices", todayServices);
   todayServices.sort(servicesStore.sortByTime);
 
