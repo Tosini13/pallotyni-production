@@ -1,5 +1,6 @@
 import { Button, Grid, GridSize } from "@material-ui/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthStoreContext } from "../../stores/AuthStore";
 import { Album } from "../../stores/GalleryStore";
 import { MainGridStyled, TitleTypography } from "../../style/MainStyled";
 import PhotosForm from "../gallery/PhotosForm";
@@ -19,6 +20,7 @@ const AlbumSummary: React.FC<AlbumSummaryProps> = ({
   handleAction,
   children,
 }) => {
+  const authStore = useContext(AuthStoreContext);
   const [images, setImages] = useState<object[]>([]);
   const [openForm, setOpenForm] = useState<boolean>(false);
   return (
@@ -42,11 +44,13 @@ const AlbumSummary: React.FC<AlbumSummaryProps> = ({
               <Grid item>{children}</Grid>
             </Grid>
           </Grid>
-          <Grid item>
-            <Button variant="outlined" onClick={() => setOpenForm(true)}>
-              Dodaj zdjęcia
-            </Button>
-          </Grid>
+          {authStore.isLoggedIn ? (
+            <Grid item>
+              <Button variant="outlined" onClick={() => setOpenForm(true)}>
+                Dodaj zdjęcia
+              </Button>
+            </Grid>
+          ) : null}
         </Grid>
       </MainGridStyled>
       <PhotosForm

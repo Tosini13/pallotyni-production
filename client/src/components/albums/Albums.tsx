@@ -75,21 +75,17 @@ const Albums: React.FC<AlbumsProps> = observer(() => {
     }
   };
 
-  const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
     <MainLayout img={BackgroundImg} title="Albumy">
-      {" "}
-      {IS_ADMIN_TEMP ? (
-        <RCButtonsCUD
-          mode={actionMode}
-          handleAdd={() => setActionMode(ACTION_MODE.ADD)}
-          handleEdit={albumExistsAction(() => setActionMode(ACTION_MODE.EDIT))}
-          handleDelete={albumExistsAction(() =>
-            setActionMode(ACTION_MODE.DELETE)
-          )}
-          handleCancel={albumExistsAction(handleClearActionsSD)}
-        />
-      ) : null}
+      <RCButtonsCUD
+        mode={actionMode}
+        handleAdd={() => setActionMode(ACTION_MODE.ADD)}
+        handleEdit={albumExistsAction(() => setActionMode(ACTION_MODE.EDIT))}
+        handleDelete={albumExistsAction(() =>
+          setActionMode(ACTION_MODE.DELETE)
+        )}
+        handleCancel={albumExistsAction(handleClearActionsSD)}
+      />
       <Grid container justify="space-around">
         {store.getAlbumsWithPhotos().map((album) => (
           <AlbumSummary

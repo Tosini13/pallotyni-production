@@ -4,6 +4,9 @@ import { Dialog, DialogContent, Typography } from "@material-ui/core";
 import { Photograph } from "../../stores/PhotographsStore";
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
+import { format } from "date-fns";
+import { DATE_FORMAT } from "../../models/Global";
+import { pl } from "date-fns/locale";
 
 const ImgContainer = styled.div`
   background-color: ${mainTheme.palette.primary.main};
@@ -43,7 +46,7 @@ const PhotoDetails: React.FC<PhotoDetailsProps> = ({
         </ImgContainer>
         <DialogContentStyled>
           <Typography color="textSecondary" variant="body2" align="right">
-            {photo.createdAt}
+            {format(new Date(photo.createdAt), DATE_FORMAT, { locale: pl })}
           </Typography>
           <Typography color="textSecondary" variant="body1">
             {photo.description}
