@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { IconButton, Typography } from "@material-ui/core";
+import { Hidden, IconButton, Typography } from "@material-ui/core";
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
 import Footer from "../footer/Footer";
@@ -27,8 +27,13 @@ const TitleContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, calc(-50% - ${mainHeightOnImg} / 2));
+  background-color: rgba(0, 0, 0, 0.78);
   padding: 60px 40px 70px 40px;
-  background-color: rgba(0, 0, 0, 0.58);
+  @media only screen and (max-width: 600px) {
+    padding: 10px;
+    width: 75vw;
+    box-sizing: border-box;
+  }
 `;
 
 const SubTitleContainer = styled.div`
@@ -37,6 +42,12 @@ const SubTitleContainer = styled.div`
   bottom: 0%;
   padding: 3px 50px;
   background-color: ${mainTheme.palette.primary.main};
+  @media only screen and (max-width: 600px) {
+    width: 75vw;
+    padding: 3px 5px;
+    box-sizing: border-box;
+    transform: translateY(100%);
+  }
 `;
 
 const MainContainer = styled.div`
@@ -62,6 +73,40 @@ const ScrollUpIconButtonStyled = styled(IconButton)`
   transform: translateX(-50%) rotate(-90deg);
 `;
 
+const TitleTypography: React.FC<{}> = ({ children }) => (
+  <>
+    <Hidden mdUp>
+      <Typography variant={"h6"} color="secondary" align="center">
+        {children}
+      </Typography>
+    </Hidden>
+    <Hidden smDown>
+      <Typography variant={"h2"} color="secondary" align="center">
+        {children}
+      </Typography>
+    </Hidden>
+  </>
+);
+
+const SubtitleTypography: React.FC<{}> = ({ children }) => (
+  <>
+    <Hidden mdUp>
+      <Typography
+        variant={"h6"}
+        color="textSecondary"
+        style={{ fontSize: "16px" }}
+      >
+        {children}
+      </Typography>
+    </Hidden>
+    <Hidden smDown>
+      <Typography variant={"h5"} color="textSecondary" align="center">
+        {children}
+      </Typography>
+    </Hidden>
+  </>
+);
+
 export interface MainLayoutProps {
   img: string;
   title: string;
@@ -82,21 +127,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       <ImgBackground src={img} ref={topRef}>
         <ImgShadow>
           <TitleContainer>
-            <Typography
-              variant={mainTheme.breakpoints.down("sm") ? "h4" : "h2"}
-              color="secondary"
-              align="center"
-            >
-              {title}
-            </Typography>
+            <TitleTypography>{title}</TitleTypography>
             {subtitle ? (
               <SubTitleContainer>
-                <Typography
-                  variant={mainTheme.breakpoints.down("sm") ? "h6" : "h5"}
-                  color="textSecondary"
-                >
-                  {subtitle}
-                </Typography>
+                <SubtitleTypography>{subtitle}</SubtitleTypography>
               </SubTitleContainer>
             ) : null}
           </TitleContainer>
