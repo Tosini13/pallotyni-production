@@ -64,6 +64,15 @@ const IconButtonStyled = styled(IconButton)`
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) rotate(90deg);
+  span {
+    transition: 0.3s all;
+    transform: translateX(+4%);
+  }
+  &:hover {
+    span {
+      transform: translateX(-4%);
+    }
+  }
 `;
 
 const ScrollUpIconButtonStyled = styled(IconButton)`
@@ -71,6 +80,15 @@ const ScrollUpIconButtonStyled = styled(IconButton)`
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) rotate(-90deg);
+  span {
+    transition: 0.3s all;
+    transform: translateX(-4%);
+  }
+  &:hover {
+    span {
+      transform: translateX(4%);
+    }
+  }
 `;
 
 const TitleTypography: React.FC<{}> = ({ children }) => (
