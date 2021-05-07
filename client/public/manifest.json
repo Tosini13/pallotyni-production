@@ -3,17 +3,17 @@
   "name": "Strona Domowa Zakonu Pallotynów w Szczecinie",
   "icons": [
     {
-      "src": "pallotyni_logo.png",
+      "src": "pallotyni_logo_dark.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/png"
     },
     {
-      "src": "pallotyni_logo.png",
+      "src": "pallotyni_logo_dark.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "pallotyni_logo.png",
+      "src": "pallotyni_logo_dark.png",
       "type": "image/png",
       "sizes": "512x512"
     }
