@@ -7,6 +7,7 @@ import { mainTheme } from "../../style/config";
 import { AuthStoreContext } from "../../stores/AuthStore";
 import { RoutingPath } from "../../models/Global";
 import { useHistory } from "react-router";
+import Hamburger from "../../style/buttons";
 
 const IconButtonStyled = styled(IconButton)`
   position: fixed;
@@ -54,9 +55,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = () => {
 
   return (
     <>
-      <IconButtonStyled onClick={() => setOpen(!open)}>
-        <MenuIcon color="secondary" />
-      </IconButtonStyled>
+      <Hamburger open={open} toggleOpen={() => setOpen(!open)} />
       <DrawerStyled
         open={open}
         variant="temporary"
