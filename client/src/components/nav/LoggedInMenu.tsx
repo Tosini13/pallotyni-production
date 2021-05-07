@@ -36,6 +36,7 @@ export const AStyled = styled.a`
 `;
 
 const GridSubMenuContainerStyled = styled(Grid)`
+  transition: 0.2s opacity;
   position: absolute;
   background-color: ${mainTheme.palette.primary.main};
   border-bottom-left-radius: 2px;

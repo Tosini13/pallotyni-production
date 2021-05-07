@@ -65,13 +65,19 @@ const IconButtonStyled = styled(IconButton)`
   left: 50%;
   transform: translateX(-50%) rotate(90deg);
   span {
-    transition: 0.3s all;
-    transform: translateX(+4%);
+    transition: 0.3s transform;
+    transform: translateX(-10%);
   }
   &:hover {
     span {
-      transform: translateX(-4%);
+      transform: translateX(0%);
     }
+  }
+`;
+
+const IconButtonDarkStyled = styled(IconButtonStyled)`
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
   }
 `;
 
@@ -82,11 +88,11 @@ const ScrollUpIconButtonStyled = styled(IconButton)`
   transform: translateX(-50%) rotate(-90deg);
   span {
     transition: 0.3s all;
-    transform: translateX(-4%);
+    transform: translateX(-10%);
   }
   &:hover {
     span {
-      transform: translateX(4%);
+      transform: translateX(0%);
     }
   }
 `;
@@ -164,14 +170,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       </ImgBackground>
       <MainContainer ref={mainRef}>
         {children}
-        <IconButtonStyled
+        <IconButtonDarkStyled
           color="secondary"
           onClick={() =>
             footerRef.current?.scrollIntoView({ behavior: "smooth" })
           }
         >
           <ArrowForwardIosIcon fontSize="large" />
-        </IconButtonStyled>
+        </IconButtonDarkStyled>
       </MainContainer>
       <div ref={footerRef}>
         <Footer />
