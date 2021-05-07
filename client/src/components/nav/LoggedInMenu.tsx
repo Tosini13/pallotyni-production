@@ -9,7 +9,9 @@ const GridContainerStyled = styled(Grid)`
   & > div:hover {
     & > div {
       opacity: 1;
+      transform: translateY(98%);
     }
+  }
 `;
 
 const MenuTypo = `
@@ -34,7 +36,6 @@ export const AStyled = styled.a`
 `;
 
 const GridSubMenuContainerStyled = styled(Grid)`
-  transition: 0.2s all;
   position: absolute;
   background-color: ${mainTheme.palette.primary.main};
   border-bottom-left-radius: 2px;
@@ -43,7 +44,7 @@ const GridSubMenuContainerStyled = styled(Grid)`
   width: fit-content;
   opacity: 0;
   bottom: 0px;
-  transform: translateY(100%);
+  transform: translateY(-100%);
   margin: 0px;
 `;
 export interface GridSubMenuItemProps {}

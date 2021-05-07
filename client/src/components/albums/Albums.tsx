@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 
 import { CircularProgress, Grid } from "@material-ui/core";
 import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
-import BackgroundImg from "../../resources/images/church_cross.png";
+import BackgroundImg from "../../resources/images/background.jpg";
 import MainLayout from "../layout/MainLayout";
 import { Album, AlbumStoreContext } from "../../stores/GalleryStore";
 import AlbumForm from "./AlbumForm";

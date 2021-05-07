@@ -13,7 +13,7 @@ import { TypographySelectableStyled } from "../services/ServicesView";
 import { Grid, GridSize, Typography } from "@material-ui/core";
 import { MainGridStyled, TitleTypography } from "../../style/MainStyled";
 import MainLayout from "../layout/MainLayout";
-import BackgroundImg from "../../resources/images/church_cross.png";
+import BackgroundImg from "../../resources/images/background_church.jpg";
 import RCButtonsCUD, {
   ACTION_MODE,
   useCUD,

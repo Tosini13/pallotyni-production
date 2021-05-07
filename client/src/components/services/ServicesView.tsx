@@ -10,7 +10,7 @@ import { Grid, GridSize, Typography } from "@material-ui/core";
 import ServiceForm from "./forms/ServiceForm";
 import { QuestionDialogDelete } from "../../componentsReusable/Dialogs";
 import MainLayout from "../layout/MainLayout";
-import BackgroundImg from "../../resources/images/church_cross.png";
+import BackgroundImg from "../../resources/images/background_church.jpg";
 import { MainGridStyled, TitleTypography } from "../../style/MainStyled";
 import RCButtonsCUD, {
   ACTION_MODE,
