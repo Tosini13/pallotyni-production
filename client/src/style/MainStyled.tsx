@@ -21,6 +21,17 @@ export const TitleTypography: React.FC<TypographyProps> = ({
   </TitleTypographyStyled>
 );
 
+export const SecondaryTextTypographyStyled = styled(Typography)``;
+
+export const SecondaryTextTypography: React.FC<TypographyProps> = ({
+  children,
+  ...props
+}) => (
+  <SecondaryTextTypographyStyled color="textSecondary" {...props}>
+    {children}
+  </SecondaryTextTypographyStyled>
+);
+
 export const MainGridStyled = styled(Grid)`
   padding: 20px;
   margin-bottom: 50px;
