@@ -12,6 +12,7 @@ export const ADD_MANY_PHOTOS_TO_ALBUM_API_URL = `${API_URL}/albumsAddManyPhotos`
 export const IMAGES_API_URL = `${API_URL}/images`;
 export const MANY_IMAGES_API_URL = `${API_URL}/many-images`;
 export const PHOTOGRAPHS_API_URL = `${API_URL}/photographs`;
+export const PRIESTS_API_URL = `${API_URL}/priests`;
 export const ALBUM_PHOTOGRAPHS_API_URL = `${API_URL}/albums/:albumId/photographs/:photographId`;
 
 type TUrlAlbumPhotographParams = { photographId: Id; albumId: Id };
