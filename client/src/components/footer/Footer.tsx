@@ -32,18 +32,32 @@ const Footer: React.FC<FooterProps> = () => {
       <ImageCover>
         <Grid container direction="column" spacing={3} alignItems="center">
           <Grid item>
-            <TitleTypography color="textSecondary">Footer</TitleTypography>
+            <TitleTypography color="textSecondary">Kontakt</TitleTypography>
           </Grid>
           <Grid item lg={6} md={8}>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Typography>
+            <Grid container>
+              <Grid item>
+                <Typography>ul. Świętego Ducha 9</Typography>
+                <Typography>skr. poczt. 658, 70-205 Szczecin</Typography>
+              </Grid>
+              <Grid item>
+                <Typography>tel.: 91 434 35 02</Typography>
+                <Typography>tel./fax: 91 433 53 02</Typography>
+                <Typography>e-mail: jan.ewangelista@sac.org.pl</Typography>
+              </Grid>
+              <Grid item>
+                <Typography>Nr konta</Typography>
+                <Typography>60124039271111001101466883</Typography>
+                <Typography>Bank Pekao s.a.</Typography>
+              </Grid>
+              {/* TODO: Make it dinamic - able to change by admin user */}
+              {/* <Grid item>
+                <Typography>
+                  ks. Piotr Bieniek SAC – rektor i proboszcz
+                </Typography>
+                <Typography>ks. dr Tomasz Kawczyk SAC – wikariusz</Typography>
+              </Grid> */}
+            </Grid>
           </Grid>
         </Grid>
       </ImageCover>

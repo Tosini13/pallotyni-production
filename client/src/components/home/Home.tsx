@@ -13,8 +13,8 @@ const Home: React.FC<HomeProps> = () => {
   return (
     <MainLayout
       img={BackgroundImg}
-      title="Parafia p.w. św. Jana Ewangelisty w Szczecinie"
-      subtitle="Kościół Pallotynów"
+      title="Parafia p.w. Św. Jana Ewangelisty"
+      subtitle="Kościół Morski, Księża Pallotyni"
     >
       <Hidden smDown>
         <Grid container justify="space-around">
