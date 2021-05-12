@@ -2,13 +2,14 @@ import { format } from "date-fns";
 import { Request, Response } from "express";
 import { LeanDocument } from "mongoose";
 import { DATE_TIME_FORMAT } from "../models/global";
-import News, { INews, TNews, TNewsRes } from "../models/news";
+import News, { E_NEWS_TYPE, INews, TNews, TNewsRes } from "../models/news";
 
 const convertNews = (news: LeanDocument<INews>): TNewsRes => ({
   id: news._id,
   title: news.title,
   content: news.content,
   createdAt: news.createdAt,
+  type: news.type,
 });
 
 export const getAllNews = (req: Request, res: Response) => {
@@ -22,6 +23,7 @@ export const createNews = (req: Request, res: Response) => {
     title: req.body.title,
     content: req.body.content,
     createdAt: format(new Date(), DATE_TIME_FORMAT),
+    type: req.body.type ?? E_NEWS_TYPE.NEWS,
   };
 
   News.create(news)
@@ -34,6 +36,7 @@ export const updateNews = (req: Request, res: Response) => {
     title: req.body.title,
     content: req.body.content,
     createdAt: format(new Date(), DATE_TIME_FORMAT),
+    type: req.body.type ?? E_NEWS_TYPE.NEWS,
   };
 
   News.findByIdAndUpdate({ _id: req.params.id }, news)

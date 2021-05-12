@@ -3,7 +3,7 @@ import axios from "axios";
 import { format } from "date-fns";
 
 import { action, makeObservable, observable } from "mobx";
-import { TNews, TNewsCreate } from "../models/News";
+import { E_NEWS_TYPE, TNews, TNewsCreate } from "../models/News";
 import { DATE_TIME_FORMAT, Id } from "../models/Global";
 import { NEWS_API_URL } from "../models/const";
 
@@ -24,10 +24,14 @@ export class News {
   @observable
   createdAt: string;
 
-  constructor({ id, title, content, createdAt }: TNewsProps) {
+  @observable
+  type: E_NEWS_TYPE;
+
+  constructor({ id, title, content, type, createdAt }: TNewsProps) {
     this.id = id;
     this.title = title;
     this.content = content;
+    this.type = type;
     this.createdAt = createdAt ?? format(new Date(), DATE_TIME_FORMAT);
   }
 }
@@ -47,7 +51,12 @@ export class NewsStore {
 
   @action
   getAllNews() {
-    return this.news;
+    return this.news.filter((news) => news.type === E_NEWS_TYPE.NEWS);
+  }
+
+  @action
+  getAllAnnouncements() {
+    return this.news.filter((news) => news.type === E_NEWS_TYPE.ANNOUNCEMENT);
   }
 
   @action

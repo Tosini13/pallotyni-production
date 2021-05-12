@@ -126,11 +126,38 @@ export const Menu: React.FC<MenuProps> = ({ actionCallback }) => {
           Galeria
         </LinkStyled>
       </GridMenuItem>
-      <GridMenuItem>
-        <LinkStyled to={RoutingPath.news} onClick={actionCallback}>
-          Aktualności
-        </LinkStyled>
-      </GridMenuItem>
+      <Hidden smDown>
+        <GridMenuItem>
+          <AStyled>Aktualności</AStyled>
+          <GridSubMenuContainer>
+            <GridSubMenuItem>
+              <LinkStyled
+                to={RoutingPath.announcements}
+                onClick={actionCallback}
+              >
+                Ogłoszenia
+              </LinkStyled>
+            </GridSubMenuItem>
+            <GridSubMenuItem>
+              <LinkStyled to={RoutingPath.news} onClick={actionCallback}>
+                Newsy
+              </LinkStyled>
+            </GridSubMenuItem>
+          </GridSubMenuContainer>
+        </GridMenuItem>
+      </Hidden>
+      <Hidden mdUp>
+        <GridMenuItem>
+          <LinkStyled to={RoutingPath.announcements} onClick={actionCallback}>
+            Ogłoszenia
+          </LinkStyled>
+        </GridMenuItem>
+        <GridMenuItem>
+          <LinkStyled to={RoutingPath.news} onClick={actionCallback}>
+            Newsy
+          </LinkStyled>
+        </GridMenuItem>
+      </Hidden>
     </>
   );
 };
