@@ -1,5 +1,7 @@
+import React from "react";
 import axios from "axios";
 import { action, makeObservable, observable } from "mobx";
+import { createContext } from "react";
 import { IMAGES_API_URL, PRIESTS_API_URL } from "../models/const";
 import { Id } from "../models/Global";
 import {
@@ -34,7 +36,7 @@ export class Priest {
   }
 }
 
-class PriestStore {
+class PriestsStore {
   priests: Priest[] = [];
 
   async fetch() {}
@@ -85,3 +87,12 @@ class PriestStore {
     });
   }
 }
+
+const priestsStore = new PriestsStore();
+
+export const PriestContext = createContext(priestsStore);
+export const PriestProvider: React.FC<{}> = ({ children }) => (
+  <PriestContext.Provider value={priestsStore}>
+    {children}
+  </PriestContext.Provider>
+);
