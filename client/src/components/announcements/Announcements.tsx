@@ -14,15 +14,15 @@ import {
   ActionButtonStyled,
 } from "../aboutUs/AboutUs";
 import { E_NEWS_TYPE, TNews } from "../../models/News";
-import NewsSummary from "./NewsSummary";
-import NewsForm from "./NewsForm";
 import MainLayout from "../layout/MainLayout";
 import BackgroundImg from "../../resources/images/church_cross.png";
 import RCButtonsCUD from "../../componentsReusable/ButtonsCUD";
+import NewsSummary from "../news/NewsSummary";
+import NewsForm from "../news/NewsForm";
 
 export interface NewsProps {}
 
-const News: React.FC<NewsProps> = observer(() => {
+const Announcements: React.FC<NewsProps> = observer(() => {
   const newsStore = useContext(NewStoreContext);
   const [openForm, setOpenForm] = useState<boolean>(false);
   const [edition, setEdition] = useState<boolean>(false);
@@ -50,9 +50,9 @@ const News: React.FC<NewsProps> = observer(() => {
   };
 
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
-  const allNews = newsStore.getAllNews();
+  const allNews = newsStore.getAllAnnouncements();
   return (
-    <MainLayout img={BackgroundImg} title="Aktualności">
+    <MainLayout img={BackgroundImg} title="Ogłoszenia">
       <Grid
         container
         spacing={3}
@@ -102,7 +102,7 @@ const News: React.FC<NewsProps> = observer(() => {
         open={Boolean((openForm || selectedNews) && !removal)}
         selectedNews={openForm ? selectedNews : undefined}
         handleClose={handleClearActionsSD}
-        defaultType={E_NEWS_TYPE.NEWS}
+        defaultType={E_NEWS_TYPE.ANNOUNCEMENT}
       />
       <QuestionDialogDelete
         open={Boolean(selectedNews && removal)}
@@ -118,4 +118,4 @@ const News: React.FC<NewsProps> = observer(() => {
   );
 });
 
-export default News;
+export default Announcements;

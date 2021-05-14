@@ -44,7 +44,6 @@
     "eject": "react-scripts eject",
     "cy:ui": "cypress open",
     "cy:e2e": "cypress run",
-    "commit": "commit-wizard",
     "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {

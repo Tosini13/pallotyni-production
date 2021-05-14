@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 
 import { action, makeObservable, observable } from "mobx";
-import { TNews, TNewsCreate } from "../models/News";
+import { E_NEWS_TYPE, TNews, TNewsCreate } from "../models/News";
 import { DATE_TIME_FORMAT, Id } from "../models/Global";
 import { NEWS_API_URL } from "../models/const";
 
@@ -24,10 +24,14 @@ export class News {
   @observable
   createdAt: string;
 
-  constructor({ id, title, content, createdAt }: TNewsProps) {
+  @observable
+  type: E_NEWS_TYPE;
+
+  constructor({ id, title, content, type, createdAt }: TNewsProps) {
     this.id = id;
     this.title = title;
     this.content = content;
+    this.type = type;
     this.createdAt = createdAt ?? format(new Date(), DATE_TIME_FORMAT);
   }
 }
@@ -47,12 +51,26 @@ export class NewsStore {
 
   @action
   getAllNews() {
-    return this.news;
+    return this.news.filter((news) => news.type === E_NEWS_TYPE.NEWS);
   }
 
   @action
-  getLatestNews(quantity: number) {
-    return this.news.slice(0, quantity);
+  getAllAnnouncements() {
+    return this.news.filter((news) => news.type === E_NEWS_TYPE.ANNOUNCEMENT);
+  }
+
+  @action
+  getLatestNews() {
+    if (!this.news.length) {
+      return null;
+    }
+    let latestNews = this.news[0];
+    this.news.forEach((news) => {
+      if (isAfter(new Date(news.createdAt), new Date(latestNews.createdAt))) {
+        latestNews = news;
+      }
+    });
+    return latestNews;
   }
 
   @action

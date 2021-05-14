@@ -1,5 +1,15 @@
-import { useContext, useEffect } from "react";
-import { DialogActions, DialogContent, Grid } from "@material-ui/core";
+import { useContext, useEffect, useState } from "react";
+import {
+  Radio,
+  DialogActions,
+  DialogContent,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  RadioGroup,
+  Typography,
+} from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { ButtonSuccess, ButtonError } from "../../componentsReusable/Buttons";
 import {
@@ -8,7 +18,7 @@ import {
   RCDialogTitle,
 } from "../../componentsReusable/Dialogs";
 import TextFieldC from "../../componentsReusable/Forms";
-import { TNews, TNewsCreate } from "../../models/News";
+import { TNews, TNewsCreate, E_NEWS_TYPE } from "../../models/News";
 import { NewStoreContext } from "../../stores/NewsStore";
 import useAction from "../../helpers/useAction";
 
@@ -16,18 +26,27 @@ export interface NewsFormProps {
   open: boolean;
   selectedNews?: TNews;
   handleClose: () => void;
+  defaultType: E_NEWS_TYPE;
 }
 
 const NewsForm: React.FC<NewsFormProps> = ({
   open,
   handleClose,
   selectedNews,
+  defaultType,
 }) => {
   const { isProcessing, execute } = useAction();
   const newsStore = useContext(NewStoreContext);
   const { register, handleSubmit, reset } = useForm<TNewsCreate>();
 
+  const [type, setType] = useState(defaultType ?? E_NEWS_TYPE.NEWS);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setType((event.target as HTMLInputElement).value as E_NEWS_TYPE);
+  };
+
   const clearForm = () => {
+    setType(E_NEWS_TYPE.NEWS);
     reset({
       title: "",
       content: "",
@@ -46,16 +65,18 @@ const NewsForm: React.FC<NewsFormProps> = ({
           ...data,
           id: selectedNews.id,
           createdAt: selectedNews.createdAt,
+          type,
         })
       );
     } else {
-      await execute(newsStore.createNews(data));
+      await execute(newsStore.createNews({ ...data, type }));
     }
     handleCloseForm();
   };
 
   useEffect(() => {
-    reset(selectedNews);
+    reset({ ...selectedNews });
+    setType(selectedNews?.type ?? defaultType ?? E_NEWS_TYPE.NEWS);
   }, [reset, selectedNews]);
 
   return (
@@ -65,6 +86,30 @@ const NewsForm: React.FC<NewsFormProps> = ({
           {selectedNews ? "Edycja" : "Tworzenie"} Newsa
         </RCDialogTitle>
         <DialogContent>
+          <FormControl component="fieldset">
+            <FormLabel component="legend" color="secondary">
+              Typ:
+            </FormLabel>
+            <RadioGroup
+              aria-label="type"
+              name="type"
+              value={type}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value={E_NEWS_TYPE.ANNOUNCEMENT}
+                control={<Radio />}
+                label={
+                  <Typography color="textSecondary">Ogłoszenie</Typography>
+                }
+              />
+              <FormControlLabel
+                value={E_NEWS_TYPE.NEWS}
+                control={<Radio />}
+                label={<Typography color="textSecondary">News</Typography>}
+              />
+            </RadioGroup>
+          </FormControl>
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <TextFieldC inputRef={register} name="title" label="Tytuł" />

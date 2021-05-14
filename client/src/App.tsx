@@ -17,6 +17,7 @@ import Login from "./components/auth/Login";
 import ForgottenPassword from "./components/auth/ForgottenPassword";
 import SidebarMenu from "./components/sidebarMenu/SidebarMenu";
 import { Hidden } from "@material-ui/core";
+import Announcements from "./components/announcements/Announcements";
 import Priests from "./components/priests/Priests";
 
 const GlobalStyle = styled.div`
@@ -69,6 +70,11 @@ function App() {
               <Route path={RoutingPath.album} component={Photos} />
               <Route path={RoutingPath.stellaMaris} component={StellaMaris} />
               <Route exact path={RoutingPath.news} component={News} />
+              <Route
+                exact
+                path={RoutingPath.announcements}
+                component={Announcements}
+              />
               <Route exact path={RoutingPath.home} component={Home} />
             </Switch>
           </MainStyled>
