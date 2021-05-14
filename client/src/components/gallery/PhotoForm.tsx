@@ -187,7 +187,7 @@ const PhotoForm: React.FC<PhotoFormProps> = ({
     <DialogStyled open={open} onClose={handleCloseForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <RCDialogTitle>
-          {selectedPhotograph ? "Edit" : "Create"} Photograph
+          {selectedPhotograph ? "Edytuj" : "Stwórz"} Zdjęcie
         </RCDialogTitle>
         <DialogContent>
           <Grid container direction="column" spacing={2}>
@@ -216,20 +216,13 @@ const PhotoForm: React.FC<PhotoFormProps> = ({
               </LogoContainerStyled>
             </Grid>
             <Grid item>
-              <TextFieldC
-                inputRef={register}
-                name="description"
-                label="description"
-                color="secondary"
-              />
+              <TextFieldC inputRef={register} name="description" label="Opis" />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <ButtonSuccess type="submit">
-            {selectedPhotograph ? "Update" : "Create"}
-          </ButtonSuccess>
-          <ButtonError onClick={handleCloseForm}>Cancel</ButtonError>
+          <ButtonSuccess type="submit">Zapisz</ButtonSuccess>
+          <ButtonError onClick={handleCloseForm}>Anuluj</ButtonError>
         </DialogActions>
       </form>
     </DialogStyled>

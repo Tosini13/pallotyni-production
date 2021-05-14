@@ -145,11 +145,7 @@ export class AlbumStore {
   }
 
   async deleteAlbum(album: Album) {
-    console.log("###############################");
-    console.log("album", album);
     const data = await axios.delete(`${ALBUM_API_URL}/${album.id}`);
-    console.log("###############################");
-    console.log("data", data);
     const albumData = data.data as TAlbum;
     if (albumData) {
       this.albums = this.albums.filter((n) => n.id !== albumData.id);

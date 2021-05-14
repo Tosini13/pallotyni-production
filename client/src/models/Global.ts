@@ -9,6 +9,7 @@ export enum RoutingPath {
   stellaMaris = "/stella-maris",
   service = "/services",
   confessions = "/confessions",
+  priests = "/priests",
   gallery = "/gallery",
   news = "/news",
   album = "/albums/:id",

@@ -17,6 +17,7 @@ import Login from "./components/auth/Login";
 import ForgottenPassword from "./components/auth/ForgottenPassword";
 import SidebarMenu from "./components/sidebarMenu/SidebarMenu";
 import { Hidden } from "@material-ui/core";
+import Priests from "./components/priests/Priests";
 
 const GlobalStyle = styled.div`
   ${ScrollBarStyled}
@@ -63,6 +64,7 @@ function App() {
                 path={RoutingPath.confessions}
                 component={ConfessionsView}
               />
+              <Route path={RoutingPath.priests} component={Priests} />
               <Route path={RoutingPath.gallery} component={Albums} />
               <Route path={RoutingPath.album} component={Photos} />
               <Route path={RoutingPath.stellaMaris} component={StellaMaris} />

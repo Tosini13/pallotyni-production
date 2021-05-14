@@ -122,6 +122,11 @@ export const Menu: React.FC<MenuProps> = ({ actionCallback }) => {
         </GridMenuItem>
       </Hidden>
       <GridMenuItem>
+        <LinkStyled to={RoutingPath.priests} onClick={actionCallback}>
+          Księża
+        </LinkStyled>
+      </GridMenuItem>
+      <GridMenuItem>
         <LinkStyled to={RoutingPath.gallery} onClick={actionCallback}>
           Galeria
         </LinkStyled>

@@ -45,6 +45,12 @@ import {
   getAlbums,
   updateAlbum,
 } from "./controllers/album";
+import {
+  getAllPriests,
+  createPriest,
+  updatePriest,
+  deletePriest,
+} from "./controllers/priest";
 
 const router = express.Router();
 
@@ -75,6 +81,13 @@ router.get("/news", getAllNews);
 router.post("/news", createNews);
 router.put("/news/:id", updateNews);
 router.delete("/news/:id", deleteNews);
+
+// -----------------------------------------
+// PRIESTS
+router.get("/priests", getAllPriests);
+router.post("/priests", createPriest);
+router.put("/priests/:id", updatePriest);
+router.delete("/priests/:id", deletePriest);
 
 // -----------------------------------------
 // PHOTOGRAPHS
