@@ -72,9 +72,8 @@ const AboutUs: React.FC<AboutUsProps> = observer(() => {
   const [openForm, setOpenForm] = useState<boolean>(false);
   const [edition, setEdition] = useState<boolean>(false);
   const [removal, setRemoval] = useState<boolean>(false);
-  const [selectedParagraph, setSelectedParagraph] = useState<
-    TParagraph | undefined
-  >();
+  const [selectedParagraph, setSelectedParagraph] =
+    useState<TParagraph | undefined>();
 
   useEffect(() => {
     storeParagraph.fetch();

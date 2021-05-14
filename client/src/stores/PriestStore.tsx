@@ -6,8 +6,10 @@ import { IMAGES_API_URL, PRIESTS_API_URL } from "../models/const";
 import { Id } from "../models/Global";
 import {
   TPriest,
-  TPriestCreate,
+  TCreatePriestAndImage,
   TPriestCreateApiParams,
+  TPriestUpdate,
+  TCreatePriest,
 } from "../models/Priest";
 
 export class Priest {
@@ -39,9 +41,17 @@ export class Priest {
 class PriestsStore {
   priests: Priest[] = [];
 
-  async fetch() {}
+  async fetch() {
+    const data = await axios.get(PRIESTS_API_URL);
+    const priestsData = data.data as TPriest[];
+    if (priestsData) {
+      this.priests = priestsData.map((item) => new Priest(item));
+    } else {
+      console.log("error");
+    }
+  }
 
-  async createPriest(priestData: TPriestCreate) {
+  async createPriest(priestData: TCreatePriestAndImage) {
     let priest: TPriestCreateApiParams = {
       firstName: priestData.firstName,
       lastName: priestData.lastName,
@@ -79,11 +89,66 @@ class PriestsStore {
     return imageData.data as string;
   }
 
+  @action
+  async updatePriest({
+    id,
+    firstName,
+    lastName,
+    position,
+    path,
+    imageFile,
+  }: TPriestUpdate) {
+    let updatedPath = path as string;
+    if (imageFile) {
+      let formData = new FormData();
+      formData.append("img", imageFile);
+      if (path) {
+        formData.append("deleteImage", path);
+      }
+      const imageData = await axios.put(IMAGES_API_URL, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      updatedPath = imageData.data as string;
+    }
+    const priest: TCreatePriest = {
+      firstName: firstName,
+      lastName: lastName,
+      position: position,
+      path: updatedPath,
+    };
+    const data = await axios.put(`${PRIESTS_API_URL}/${id}`, priest);
+    const priestData = data.data as TPriest;
+    if (priestData) {
+      const priest = new Priest(priestData);
+      this.priests = this.priests.map((p) => (p.id === priest.id ? priest : p));
+    } else {
+      console.log("error photo");
+    }
+    // TODO: delete old image file
+  }
+
+  async deletePriest(priest: Priest) {
+    console.log("###############################");
+    console.log("priest", priest);
+    const data = await axios.delete(`${PRIESTS_API_URL}/${priest.id}`);
+    console.log("###############################");
+    console.log("data", data);
+    const priestData = data.data as TPriest;
+    if (priestData) {
+      this.priests = this.priests.filter((p) => p.id !== priestData.id);
+    } else {
+      console.log("error");
+    }
+  }
+
   constructor() {
     makeObservable(this, {
       priests: observable,
       fetch: action,
       createPriest: action,
+      deletePriest: action,
     });
   }
 }

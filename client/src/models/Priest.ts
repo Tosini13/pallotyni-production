@@ -8,7 +8,13 @@ export type TPriest = {
   position?: string;
 };
 
-export type TPriestCreate = Omit<TPriest, "id" | "path"> & {
+export type TCreatePriestAndImage = Omit<TPriest, "id" | "path"> & {
+  imageFile: any;
+};
+
+export type TCreatePriest = Omit<TPriest, "id">;
+
+export type TPriestUpdate = TPriest & {
   imageFile: any;
 };
 
