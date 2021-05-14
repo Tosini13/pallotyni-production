@@ -8,9 +8,15 @@ export interface HomeNewsProps {}
 
 const HomeNews: React.FC<HomeNewsProps> = observer(() => {
   const newsStore = useContext(NewStoreContext);
+  const latestNews = newsStore.getLatestNews();
   useEffect(() => {
     newsStore.fetch();
   }, [newsStore]);
+
+  if (!latestNews) {
+    return null;
+  }
+
   return (
     <Grid
       container
@@ -23,20 +29,18 @@ const HomeNews: React.FC<HomeNewsProps> = observer(() => {
         <TitleTypography>{"Aktualności"}</TitleTypography>
       </Grid>
       <Grid item>
-        {newsStore.getLatestNews(1).map((news) => (
-          <Grid container direction="column" spacing={2} key={news.id}>
-            <Grid item>
-              <Typography color="textPrimary" variant="h6" align="center">
-                {news.title}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography color="textPrimary" align="justify">
-                {news.content}
-              </Typography>
-            </Grid>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <Typography color="textPrimary" variant="h6" align="center">
+              {latestNews.title}
+            </Typography>
           </Grid>
-        ))}
+          <Grid item>
+            <Typography color="textPrimary" align="justify">
+              {latestNews.content}
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
