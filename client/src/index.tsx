@@ -14,6 +14,7 @@ import { AlbumStoreProvider } from "./stores/GalleryStore";
 import { AuthStoreProvider } from "./stores/AuthStore";
 import { LanguageProvider } from "./stores/LanguageStore";
 import "./lang/i18n";
+import { PriestProvider } from "./stores/PriestStore";
 require("dotenv").config();
 
 ReactDOM.render(
@@ -22,17 +23,19 @@ ReactDOM.render(
       <AuthStoreProvider>
         <StylesProvider injectFirst>
           <NewStoreProvider>
-            <ServiceStoreProvider>
-              <ConfessionStoreProvider>
-                <AlbumStoreProvider>
-                  <PhotosStoreProvider>
-                    <ParagraphStoreProvider>
-                      <App />
-                    </ParagraphStoreProvider>
-                  </PhotosStoreProvider>
-                </AlbumStoreProvider>
-              </ConfessionStoreProvider>
-            </ServiceStoreProvider>
+            <PriestProvider>
+              <ServiceStoreProvider>
+                <ConfessionStoreProvider>
+                  <AlbumStoreProvider>
+                    <PhotosStoreProvider>
+                      <ParagraphStoreProvider>
+                        <App />
+                      </ParagraphStoreProvider>
+                    </PhotosStoreProvider>
+                  </AlbumStoreProvider>
+                </ConfessionStoreProvider>
+              </ServiceStoreProvider>
+            </PriestProvider>
           </NewStoreProvider>
         </StylesProvider>
       </AuthStoreProvider>
