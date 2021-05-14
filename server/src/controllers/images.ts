@@ -62,8 +62,10 @@ export const uploadImages = (req: Request, res: Response) => {
 };
 
 export const updateImage = async (req: Request, res: Response) => {
-  const key = req.body.deleteImage.split(AWS_GALLERY_ROOT)[1];
-  await deleteImageAWS({ key });
+  const key = req.body.deleteImage?.split(AWS_GALLERY_ROOT)[1];
+  if (key) {
+    await deleteImageAWS({ key });
+  }
   const file = await uploadimageAWS({
     path: req.file.path,
     filename: req.file.filename,

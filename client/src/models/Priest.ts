@@ -15,7 +15,7 @@ export type TCreatePriestAndImage = Omit<TPriest, "id" | "path"> & {
 export type TCreatePriest = Omit<TPriest, "id">;
 
 export type TPriestUpdate = TPriest & {
-  imageFile: any;
+  imageFile?: any;
 };
 
 export type TPriestCreateApiParams = Omit<TPriest, "id">;

@@ -31,8 +31,7 @@ const GridActionStyled = styled(Grid)<{ selectable?: string }>`
       cursor: pointer;
       background-color: ${mainTheme.palette.secondary.main};
       padding: 10px;
-      margin-left: 20px;
-      margin-right: 20px;
+      margin-top: 15px;
       &:hover{
         background-color: ${mainTheme.palette.primary.main};
         p{

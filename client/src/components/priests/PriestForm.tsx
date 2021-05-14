@@ -109,23 +109,15 @@ const PriestForm: React.FC<PriestFormProps> = ({
   };
 
   const onSubmit = (data: TPriestForm) => {
-    if (!image && !imgUrl) {
-      setImageError(true);
-    } else if (selectedPriest && image) {
-      //   priestStore.updatePhoto({
-      //     id: selectedPriest.id,
-      //     path: selectedPriest.path,
-      //     description: data.description,
-      //     imageFile: image,
-      //   });
-      handleCloseForm();
-    } else if (selectedPriest && !image) {
-      //   priestStore.updatePhoto({
-      //     id: selectedPriest.id,
-      //     path: selectedPriest.path,
-      //     description: data.description,
-      //     imageFile: image,
-      //   });
+    if (selectedPriest) {
+      priestStore.updatePriest({
+        id: selectedPriest.id,
+        path: imgUrl ? selectedPriest.path : undefined,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        position: data.position,
+        imageFile: image,
+      });
       handleCloseForm();
     } else {
       priestStore.createPriest({

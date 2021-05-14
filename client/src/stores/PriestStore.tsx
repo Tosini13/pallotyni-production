@@ -102,8 +102,11 @@ class PriestsStore {
     if (imageFile) {
       let formData = new FormData();
       formData.append("img", imageFile);
-      if (path) {
-        formData.append("deleteImage", path);
+      const pathToDelete = this.priests.find(
+        (priest) => priest.id === id
+      )?.path;
+      if (path && pathToDelete) {
+        formData.append("deleteImage", pathToDelete);
       }
       const imageData = await axios.put(IMAGES_API_URL, formData, {
         headers: {
