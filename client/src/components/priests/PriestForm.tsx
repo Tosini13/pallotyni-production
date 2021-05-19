@@ -4,7 +4,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
-import { DialogActions, DialogContent, Grid } from "@material-ui/core";
+import { DialogActions, DialogContent, Grid, Switch } from "@material-ui/core";
 import { ButtonError, ButtonSuccess } from "../../componentsReusable/Buttons";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import TextFieldC from "../../componentsReusable/Forms";
 import { parseStyledBoolean } from "../../helpers/BooleanParser";
 import { DialogStyled, RCDialogTitle } from "../../componentsReusable/Dialogs";
 import { Priest, PriestContext } from "../../stores/PriestStore";
+import { FormControlLabelStyled } from "../services/forms/DatePickerSwitch";
 
 const AddAPhotoIconStyled = styled(AddAPhotoIcon)<{ error?: string }>`
   transition: all 0.2s;
@@ -86,11 +87,16 @@ const PriestForm: React.FC<PriestFormProps> = ({
   selectedPriest,
 }) => {
   const priestStore = useContext(PriestContext);
-  const { register, handleSubmit, reset } = useForm<TPriestForm>();
+  const { register, handleSubmit, reset } = useForm<TPriestForm>({
+    defaultValues: {
+      isInFooter: false,
+    },
+  });
   const [imageError, setImageError] = useState(false);
   const [imgUrl, setImageUrl] = useState<string | undefined>(
     selectedPriest?.path
   );
+  const [isInFooter, setIsInFooter] = useState(false);
 
   const handleChangeImage = async (e: any) => {
     const imageFile = e.target.files[0];
@@ -116,6 +122,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
         firstName: data.firstName,
         lastName: data.lastName,
         position: data.position,
+        isInFooter: data.isInFooter,
         imageFile: image,
       });
       handleCloseForm();
@@ -124,6 +131,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
         firstName: data.firstName,
         lastName: data.lastName,
         position: data.position,
+        isInFooter: data.isInFooter,
         imageFile: image,
       });
       handleCloseForm();
@@ -171,6 +179,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
         firstName: selectedPriest.firstName,
         lastName: selectedPriest.lastName,
         position: selectedPriest.position,
+        isInFooter: selectedPriest.isInFooter,
       });
     }
   }, [selectedPriest, reset, setImageUrl]);
@@ -219,6 +228,19 @@ const PriestForm: React.FC<PriestFormProps> = ({
             </Grid>
             <Grid item>
               <TextFieldC inputRef={register} name="position" label="Pozycja" />
+            </Grid>
+            <Grid item>
+              <FormControlLabelStyled
+                value={isInFooter}
+                checked={isInFooter}
+                name="isInFooter"
+                control={<Switch color="secondary" checked={isInFooter} />}
+                label="Dodaj to stopki"
+                labelPlacement="end"
+                inputRef={register}
+                onClick={() => setIsInFooter(!isInFooter)}
+                color="secondary"
+              />
             </Grid>
           </Grid>
         </DialogContent>

@@ -2,14 +2,15 @@ import { Grid, GridSize, Typography } from "@material-ui/core";
 import styled from "styled-components";
 import { mainTheme } from "../../style/config";
 import { SecondaryTextTypography } from "../../style/MainStyled";
+import PriestsInfo from "./info/PriestsInfo";
 
-const FooterTitleTypography: React.FC<{}> = ({ children }) => (
+export const FooterTitleTypography: React.FC<{}> = ({ children }) => (
   <Typography variant="h6" style={{ marginBottom: "10px" }}>
     {children}
   </Typography>
 );
 
-const AStyled = styled.a`
+export const AStyled = styled.a`
   color: ${mainTheme.palette.secondary.main};
   &:hover {
     color: ${mainTheme.palette.secondary.dark};
@@ -24,7 +25,7 @@ const gridSize = {
 
 export interface FooterInfoProps {}
 
-const FooterInfo: React.SFC<FooterInfoProps> = () => {
+const FooterInfo: React.FC<FooterInfoProps> = () => {
   return (
     <>
       <Grid item {...gridSize}>
@@ -53,19 +54,7 @@ const FooterInfo: React.SFC<FooterInfoProps> = () => {
       </Grid>
       {/* TODO: Make it dinamic - able to change by admin user */}
       <Grid item {...gridSize}>
-        <FooterTitleTypography>Oficjalne informacje:</FooterTitleTypography>
-        <SecondaryTextTypography>
-          ks. Stanisław Flis SAC – rektor i proboszcz
-        </SecondaryTextTypography>
-        <SecondaryTextTypography>
-          ks. dr Adam Kowalski SAC – wikariusz
-        </SecondaryTextTypography>
-        <SecondaryTextTypography>
-          Oficjalna strona:{" "}
-          <AStyled href="http://pallotyni.szczecin.pl/" target="_blank">
-            www.pallotyni.com.pl
-          </AStyled>
-        </SecondaryTextTypography>
+        <PriestsInfo />
       </Grid>
     </>
   );

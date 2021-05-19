@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const SPriest = new Schema({
   firstName: {
     type: String,
-    required: [true, "firstName path is required"],
+    required: [true, "firstName is required"],
   },
   lastName: {
     type: String,
-    required: [true, "lastName path is required"],
+    required: [true, "lastName is required"],
   },
   path: {
     type: String,
@@ -18,6 +18,10 @@ const SPriest = new Schema({
     type: String,
     required: false,
   },
+  isInFooter: {
+    type: Boolean,
+    required: [true, "isInFooter is required"],
+  },
 });
 
 export type TPriest = {
@@ -25,6 +29,7 @@ export type TPriest = {
   lastName: string;
   path?: string;
   position?: string;
+  isInFooter: boolean;
 };
 
 export type TPriestCreateReq = TPriest;
@@ -38,6 +43,7 @@ export interface IPriest extends Document {
   lastName: string;
   path?: string;
   position?: string;
+  isInFooter: boolean;
 }
 
 const Priest = mongoose.model<IPriest>("priest", SPriest);

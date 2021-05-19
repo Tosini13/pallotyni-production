@@ -13,6 +13,12 @@ import { inputStyle } from "../../../componentsReusable/Forms";
 import { mainTheme } from "../../../style/config";
 import { pl } from "date-fns/locale";
 
+export const FormControlLabelStyled = styled(FormControlLabel)`
+  .MuiFormControlLabel-label {
+    color: ${mainTheme.palette.text.secondary};
+  }
+`;
+
 const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
   ${inputStyle}
   width: fit-content;
@@ -55,7 +61,7 @@ const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
   return (
     <>
       <Grid item md={3}>
-        <FormControlLabel
+        <FormControlLabelStyled
           value={repeat}
           checked={repeat}
           name="repeat"

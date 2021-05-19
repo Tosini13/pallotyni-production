@@ -6,6 +6,7 @@ export type TPriest = {
   lastName: string;
   path?: string;
   position?: string;
+  isInFooter: boolean;
 };
 
 export type TCreatePriestAndImage = Omit<TPriest, "id" | "path"> & {
