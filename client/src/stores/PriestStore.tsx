@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { createContext } from "react";
 import { IMAGES_API_URL, PRIESTS_API_URL } from "../models/const";
 import { Id } from "../models/Global";
@@ -23,7 +23,16 @@ export class Priest {
 
   position?: string;
 
-  constructor({ id, firstName, lastName, path, position }: TPriest) {
+  isInFooter: boolean;
+
+  constructor({
+    id,
+    firstName,
+    lastName,
+    path,
+    position,
+    isInFooter,
+  }: TPriest) {
     makeObservable(this, {
       id: observable,
       firstName: observable,
@@ -35,6 +44,7 @@ export class Priest {
     this.lastName = lastName;
     this.path = path;
     this.position = position;
+    this.isInFooter = isInFooter;
   }
 }
 
@@ -56,6 +66,7 @@ class PriestsStore {
       firstName: priestData.firstName,
       lastName: priestData.lastName,
       position: priestData.position,
+      isInFooter: priestData.isInFooter,
     };
     if (priestData.imageFile) {
       try {
@@ -97,6 +108,7 @@ class PriestsStore {
     position,
     path,
     imageFile,
+    isInFooter,
   }: TPriestUpdate) {
     let updatedPath = path as string;
     if (imageFile) {
@@ -120,6 +132,7 @@ class PriestsStore {
       lastName: lastName,
       position: position,
       path: updatedPath,
+      isInFooter: isInFooter,
     };
     const data = await axios.put(`${PRIESTS_API_URL}/${id}`, priest);
     const priestData = data.data as TPriest;
@@ -133,11 +146,7 @@ class PriestsStore {
   }
 
   async deletePriest(priest: Priest) {
-    console.log("###############################");
-    console.log("priest", priest);
     const data = await axios.delete(`${PRIESTS_API_URL}/${priest.id}`);
-    console.log("###############################");
-    console.log("data", data);
     const priestData = data.data as TPriest;
     if (priestData) {
       this.priests = this.priests.filter((p) => p.id !== priestData.id);
@@ -146,12 +155,17 @@ class PriestsStore {
     }
   }
 
+  get footerPriests() {
+    return this.priests.filter((priest) => priest.isInFooter);
+  }
+
   constructor() {
     makeObservable(this, {
       priests: observable,
       fetch: action,
       createPriest: action,
       deletePriest: action,
+      footerPriests: computed,
     });
   }
 }
