@@ -15,6 +15,8 @@ export const PHOTOGRAPHS_API_URL = `${API_URL}/photographs`;
 export const PRIESTS_API_URL = `${API_URL}/priests`;
 export const ALBUM_PHOTOGRAPHS_API_URL = `${API_URL}/albums/:albumId/photographs/:photographId`;
 
+export const FOOTER_API_URL = `${API_URL}/footer`;
+
 type TUrlAlbumPhotographParams = { photographId: Id; albumId: Id };
 export const urlAlbumPhotograph = ({
   photographId,

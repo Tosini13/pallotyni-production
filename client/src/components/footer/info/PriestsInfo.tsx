@@ -4,9 +4,11 @@ import { PriestContext } from "../../../stores/PriestStore";
 import { SecondaryTextTypography } from "../../../style/MainStyled";
 import { FooterTitleTypography, AStyled } from "../FooterInfo";
 
-export interface PriestsInfoProps {}
+export interface PriestsInfoProps {
+  website?: string;
+}
 
-const PriestsInfo: React.FC<PriestsInfoProps> = observer(() => {
+const PriestsInfo: React.FC<PriestsInfoProps> = observer(({ website }) => {
   const priestStore = useContext(PriestContext);
 
   useEffect(() => {
@@ -23,8 +25,8 @@ const PriestsInfo: React.FC<PriestsInfoProps> = observer(() => {
       ))}
       <SecondaryTextTypography>
         Oficjalna strona:{" "}
-        <AStyled href="http://pallotyni.szczecin.pl/" target="_blank">
-          www.pallotyni.com.pl
+        <AStyled href={website} target="_blank">
+          {website}
         </AStyled>
       </SecondaryTextTypography>
     </>
