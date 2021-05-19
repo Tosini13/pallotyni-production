@@ -51,6 +51,7 @@ import {
   updatePriest,
   deletePriest,
 } from "./controllers/priest";
+import { getFooter, updateFooter } from "./controllers/footer";
 
 const router = express.Router();
 
@@ -113,5 +114,10 @@ router.post("/many-images", multerConfig.array("images"), uploadImages);
 router.post("/images", multerConfig.single("img"), uploadImage);
 router.put("/images", multerConfig.single("img"), updateImage);
 router.delete("/images", deleteImage);
+
+// -----------------------------------------
+// FOOTER
+router.get("/footer", getFooter);
+router.put("/footer", updateFooter);
 
 export default router;

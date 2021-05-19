@@ -15,6 +15,7 @@ import { AuthStoreProvider } from "./stores/AuthStore";
 import { LanguageProvider } from "./stores/LanguageStore";
 import "./lang/i18n";
 import { PriestProvider } from "./stores/PriestStore";
+import { FooterStoreProvider } from "./stores/FooterStore";
 require("dotenv").config();
 
 ReactDOM.render(
@@ -29,7 +30,9 @@ ReactDOM.render(
                   <AlbumStoreProvider>
                     <PhotosStoreProvider>
                       <ParagraphStoreProvider>
-                        <App />
+                        <FooterStoreProvider>
+                          <App />
+                        </FooterStoreProvider>
                       </ParagraphStoreProvider>
                     </PhotosStoreProvider>
                   </AlbumStoreProvider>

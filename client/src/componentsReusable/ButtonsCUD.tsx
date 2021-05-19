@@ -65,43 +65,51 @@ const RCButtonsCUD: React.FC<RCButtonsCUDProps> = observer(
         direction="column"
         alignItems="center"
       >
-        <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
-          <ButtonCUD disabled={!handleCancel || !mode} onClick={handleCancel}>
-            Anuluj
-          </ButtonCUD>
-        </GridButtonsItem>
+        {handleCancel ? (
+          <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
+            <ButtonCUD disabled={!handleCancel || !mode} onClick={handleCancel}>
+              Anuluj
+            </ButtonCUD>
+          </GridButtonsItem>
+        ) : null}
         <GridButtonsItem item>
           <Grid container justify="center" spacing={5}>
-            <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
-              <ButtonCUD
-                disabled={!handleAdd}
-                onClick={handleAdd}
-                startIcon={<Add />}
-                color={isAdd ? "secondary" : "primary"}
-              >
-                Dodaj
-              </ButtonCUD>
-            </GridButtonsItem>
-            <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
-              <ButtonCUD
-                disabled={!handleEdit}
-                onClick={handleEdit}
-                startIcon={<Edit />}
-                color={isEdit ? "secondary" : "primary"}
-              >
-                Edytuj
-              </ButtonCUD>
-            </GridButtonsItem>
-            <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
-              <ButtonCUD
-                disabled={!handleDelete}
-                onClick={handleDelete}
-                startIcon={<Delete />}
-                color={isDelete ? "secondary" : "primary"}
-              >
-                Usuń
-              </ButtonCUD>
-            </GridButtonsItem>
+            {handleAdd ? (
+              <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
+                <ButtonCUD
+                  disabled={!handleAdd}
+                  onClick={handleAdd}
+                  startIcon={<Add />}
+                  color={isAdd ? "secondary" : "primary"}
+                >
+                  Dodaj
+                </ButtonCUD>
+              </GridButtonsItem>
+            ) : null}
+            {handleEdit ? (
+              <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
+                <ButtonCUD
+                  disabled={!handleEdit}
+                  onClick={handleEdit}
+                  startIcon={<Edit />}
+                  color={isEdit ? "secondary" : "primary"}
+                >
+                  Edytuj
+                </ButtonCUD>
+              </GridButtonsItem>
+            ) : null}
+            {handleDelete ? (
+              <GridButtonsItem item md={breakpoints.md} xs={breakpoints.xs}>
+                <ButtonCUD
+                  disabled={!handleDelete}
+                  onClick={handleDelete}
+                  startIcon={<Delete />}
+                  color={isDelete ? "secondary" : "primary"}
+                >
+                  Usuń
+                </ButtonCUD>
+              </GridButtonsItem>
+            ) : null}
           </Grid>
         </GridButtonsItem>
       </GridButtonsContainer>
