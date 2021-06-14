@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { DialogActions, DialogContent, Grid } from "@material-ui/core";
+import { DialogActions, DialogContent, Grid, Switch } from "@material-ui/core";
 import {
   ButtonError,
   ButtonSuccess,
@@ -14,7 +14,7 @@ import TextFieldC from "../../../componentsReusable/Forms";
 import { Service, ServiceStoreContext } from "../../../stores/ServiceStore";
 import { DATE_FORMAT, Day } from "../../../models/Global";
 import { format } from "date-fns";
-import DatePickerSwitch from "./DatePickerSwitch";
+import DatePickerSwitch, { FormControlLabelStyled } from "./DatePickerSwitch";
 import { TServiceCreate } from "../../../models/Service";
 import useAction from "../../../helpers/useAction";
 
@@ -33,9 +33,10 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
 }) => {
   const { isProcessing, execute } = useAction();
   const sStore = useContext(ServiceStoreContext);
-  const { register, handleSubmit, reset } = useForm<TServiceForm>();
+  const { register, handleSubmit, reset, watch } = useForm<TServiceForm>();
 
   const [repeat, setRepeat] = useState<boolean>(true);
+  const [periodic, setPeriodic] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     new Date() ?? format(new Date(), DATE_FORMAT)
   );
@@ -65,11 +66,12 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
           title: data.title,
           priest: data.priest,
           time: data.time,
-          days: repeat ? selectedDays : undefined,
+          days: !periodic && repeat ? selectedDays : undefined,
           date:
-            !repeat && selectedDate
+            !periodic && !repeat && selectedDate
               ? format(selectedDate, DATE_FORMAT)
               : undefined,
+          period: periodic ? data.period : undefined,
           id: selectedService.id,
         })
       );
@@ -79,11 +81,12 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
           title: data.title,
           priest: data.priest,
           time: data.time,
-          days: repeat ? selectedDays : undefined,
+          days: !periodic && repeat ? selectedDays : undefined,
           date:
-            !repeat && selectedDate
+            !periodic && !repeat && selectedDate
               ? format(selectedDate, DATE_FORMAT)
               : undefined,
+          period: periodic ? data.period : undefined,
         })
       );
     }
@@ -123,7 +126,30 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                 label="Ksiądz"
               />
             </Grid>
+            <Grid item md={3}>
+              <FormControlLabelStyled
+                value={periodic}
+                checked={periodic}
+                name="periodic"
+                control={<Switch color="secondary" checked={periodic} />}
+                label="Okresowo"
+                labelPlacement="end"
+                inputRef={register}
+                onClick={() => setPeriodic(!periodic)}
+              />
+            </Grid>
+            <Grid item md={9}>
+              <TextFieldC
+                multiline
+                inputRef={register}
+                name="period"
+                label="Okres"
+                disabled={!periodic}
+                required={periodic}
+              />
+            </Grid>
             <DatePickerSwitch
+              disabled={periodic}
               register={register}
               repeat={repeat}
               setRepeat={setRepeat}

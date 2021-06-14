@@ -10,6 +10,7 @@ const convertService = (service: LeanDocument<IService>): TServiceRes => {
     priest: service.priest,
     time: service.time,
     title: service.title,
+    period: service.period,
   };
 };
 
@@ -29,6 +30,7 @@ export const createService = (req: Request, res: Response) => {
     days: req.body.days,
     time: req.body.time,
     priest: req.body.priest,
+    period: req.body.period,
   };
   Service.create(service)
     .then((newService) => {
@@ -47,6 +49,7 @@ export const updateService = (req: Request, res: Response) => {
     days: req.body.days,
     time: req.body.time,
     priest: req.body.priest,
+    period: req.body.period,
   };
   Service.findByIdAndUpdate({ _id: req.params.id }, service)
     .then((oldService) => {

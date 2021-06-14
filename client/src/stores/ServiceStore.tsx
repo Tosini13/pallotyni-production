@@ -16,6 +16,7 @@ export class Service {
   time: string;
   days?: Day[];
   date?: string;
+  period?: string;
   priest: string;
 
   get show() {
@@ -24,7 +25,7 @@ export class Service {
     } ${this.time} - ${this.title}, ${this.priest}`;
   }
 
-  constructor({ id, title, time, days, date, priest }: TService) {
+  constructor({ id, title, time, days, date, priest, period }: TService) {
     makeObservable(this, {
       id: observable,
       title: observable,
@@ -32,6 +33,7 @@ export class Service {
       days: observable,
       date: observable,
       priest: observable,
+      period: observable,
       show: computed,
     });
     this.id = id;
@@ -40,6 +42,7 @@ export class Service {
     this.priest = priest;
     this.days = days;
     this.date = date;
+    this.period = period;
   }
 }
 
@@ -126,6 +129,10 @@ export class ServiceStore {
       dailyServicesMap.set(day, selectedServices.sort(this.sortByTime));
     });
     return dailyServicesMap;
+  }
+
+  get getPeriodic() {
+    return this.services.filter((service) => service.period);
   }
 
   get getSingleService() {

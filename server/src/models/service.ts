@@ -26,6 +26,10 @@ const SService = new Schema({
     type: String,
     required: false,
   },
+  period: {
+    type: String,
+    required: false,
+  },
 });
 
 export type TService = {
@@ -34,6 +38,7 @@ export type TService = {
   days?: string[];
   date?: string;
   priest: string;
+  period?: string;
 };
 
 export type TServiceRes = TService & {
@@ -46,6 +51,7 @@ export interface IService extends Document {
   days?: string[];
   date?: string;
   priest: string;
+  period?: string;
 }
 
 const Service = mongoose.model<IService>("service", SService);

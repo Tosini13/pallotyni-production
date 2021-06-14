@@ -29,6 +29,7 @@ const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
 
 export interface DatePickerSwitchProps {
   register: any;
+  disabled: boolean;
   repeat: boolean;
   setRepeat: (repeat: boolean) => void;
   selectedDate: Date | null;
@@ -38,6 +39,7 @@ export interface DatePickerSwitchProps {
 }
 
 const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
+  disabled,
   register,
   repeat,
   setRepeat,
@@ -58,6 +60,10 @@ const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
     setSelectedDate(date);
   };
 
+  if (disabled) {
+    return null;
+  }
+
   return (
     <>
       <Grid item md={3}>
@@ -65,11 +71,14 @@ const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
           value={repeat}
           checked={repeat}
           name="repeat"
-          control={<Switch color="secondary" checked={repeat} />}
+          control={
+            <Switch color="secondary" checked={repeat} disabled={disabled} />
+          }
           label="Przełącz wybór"
           labelPlacement="end"
           inputRef={register}
           onClick={() => setRepeat(!repeat)}
+          disabled={disabled}
         />
       </Grid>
       <Grid item md={9}>
@@ -78,6 +87,7 @@ const DatePickerSwitch: React.FC<DatePickerSwitchProps> = ({
         ) : (
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pl}>
             <KeyboardDatePickerStyled
+              disabled={disabled}
               color="secondary"
               label="Wybierz datę"
               format={DATE_FORMAT}

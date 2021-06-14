@@ -6,6 +6,7 @@ export type TService = {
   time: string;
   days?: Day[];
   date?: string;
+  period?: string;
   priest: string;
 };
 

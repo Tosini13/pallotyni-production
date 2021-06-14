@@ -23,6 +23,13 @@ const breakpoints = {
   xs: 12 as GridSize,
 };
 
+const showService = (service: Service) => (
+  <>
+    {service.time} - {service.title}{" "}
+    {service.priest ? `, ${service.priest}` : null}
+  </>
+);
+
 export const TypographySelectableStyled = styled(Typography)<{
   selectable?: string;
   hovered?: string;
@@ -84,6 +91,7 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
     }
   };
 
+  const periodicServices = storeServices.getPeriodic;
   const servicesMap = storeServices.getServicesByDay;
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
@@ -103,7 +111,7 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
       ) : null}
       <Grid container justify="space-around">
         <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>Msze święte co tydzień</TitleTypography>
+          <TitleTypography>Msze święte</TitleTypography>
           {Object.values(Day).map((day) => {
             const services = servicesMap.get(day);
             if (!services?.length) {
@@ -132,36 +140,67 @@ const ServicesView: React.FC<ServicesViewProps> = observer(() => {
                       onMouseLeave={() => setHovered(undefined)}
                       onClick={() => handleSelectService(service)}
                     >
-                      {service.time} - {service.title}, {service.priest}
+                      {showService(service)}
                     </TypographySelectableStyled>
                   </Grid>
                 ))}
               </Grid>
             );
           })}
-        </MainGridStyled>
-        <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>Pojedyncze msze święte</TitleTypography>
-          {singleServices ? (
+          {periodicServices.map((service) => (
             <>
-              {singleServices.map((service) => (
-                <TypographySelectableStyled
-                  color="textPrimary"
-                  key={service.id}
-                  selectable={parseStyledBoolean(isEdit || isDelete)}
-                  hovered={parseStyledBoolean(
-                    (isEdit || isDelete) && hovered?.id === service.id
-                  )}
-                  onMouseEnter={() => setHovered(service)}
-                  onMouseLeave={() => setHovered(undefined)}
-                  onClick={() => handleSelectService(service)}
-                >
-                  {service.show}
-                </TypographySelectableStyled>
-              ))}
+              <Grid container direction="column" key={service.id}>
+                <Grid item>
+                  <Typography
+                    color="textPrimary"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    {service.period}
+                  </Typography>
+                </Grid>
+                <Grid item style={{ paddingLeft: "20px" }}>
+                  <TypographySelectableStyled
+                    color="textPrimary"
+                    key={service.id}
+                    selectable={parseStyledBoolean(isEdit || isDelete)}
+                    hovered={parseStyledBoolean(
+                      (isEdit || isDelete) && hovered?.id === service.id
+                    )}
+                    onMouseEnter={() => setHovered(service)}
+                    onMouseLeave={() => setHovered(undefined)}
+                    onClick={() => handleSelectService(service)}
+                  >
+                    {showService(service)}
+                  </TypographySelectableStyled>
+                </Grid>
+              </Grid>
             </>
-          ) : null}
+          ))}
         </MainGridStyled>
+        {singleServices.length ? (
+          <MainGridStyled item md={breakpoints.md}>
+            <TitleTypography>Pojedyncze msze święte</TitleTypography>
+            {singleServices ? (
+              <>
+                {singleServices.map((service) => (
+                  <TypographySelectableStyled
+                    color="textPrimary"
+                    key={service.id}
+                    selectable={parseStyledBoolean(isEdit || isDelete)}
+                    hovered={parseStyledBoolean(
+                      (isEdit || isDelete) && hovered?.id === service.id
+                    )}
+                    onMouseEnter={() => setHovered(service)}
+                    onMouseLeave={() => setHovered(undefined)}
+                    onClick={() => handleSelectService(service)}
+                  >
+                    {service.show}
+                  </TypographySelectableStyled>
+                ))}
+              </>
+            ) : null}
+          </MainGridStyled>
+        ) : null}
       </Grid>
       <ServiceForm
         open={Boolean(isAdd || (selectedService && isEdit))}

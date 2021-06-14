@@ -131,6 +131,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
               />
             </Grid>
             <DatePickerSwitch
+              disabled={false}
               register={register}
               repeat={repeat}
               setRepeat={setRepeat}
