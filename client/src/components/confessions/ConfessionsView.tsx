@@ -36,9 +36,8 @@ export interface ConfessionsViewProps {
 
 const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
   const storeConfession = useContext(ConfessionStoreContext);
-  const [selectedConfession, setSelectedConfession] = useState<
-    Confession | undefined
-  >();
+  const [selectedConfession, setSelectedConfession] =
+    useState<Confession | undefined>();
   const [hovered, setHovered] = useState<Confession | undefined>();
   const [actionMode, setActionMode] = useState<ACTION_MODE | undefined>();
   const { isAdd, isEdit, isDelete } = useCUD(actionMode);
@@ -60,7 +59,9 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
     storeConfession.fetch();
   }, [storeConfession]);
 
+  const periodicConfessions = storeConfession.getPeriodic;
   const dailyConfessionsMap = storeConfession.getConfessionsByDay;
+  const singleConfession = storeConfession.getConfessionsNextWeek;
   const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
     <MainLayout img={BackgroundImg} title="Spowiedź święta">
@@ -120,25 +121,52 @@ const ConfessionsView: React.FC<ConfessionsViewProps> = observer(() => {
               </Grid>
             );
           })}
-        </MainGridStyled>
-        <MainGridStyled item md={breakpoints.md}>
-          <TitleTypography>Pojedyncza spowiedź</TitleTypography>
-          {storeConfession.getConfessionsNextWeek.map((confession) => (
-            <TypographySelectableStyled
-              color="textPrimary"
-              key={confession.id}
-              selectable={parseStyledBoolean(isEdit || isDelete)}
-              hovered={parseStyledBoolean(
-                (isEdit || isDelete) && hovered?.id === confession.id
-              )}
-              onMouseEnter={() => setHovered(confession)}
-              onMouseLeave={() => setHovered(undefined)}
-              onClick={() => handleSelectConfession(confession)}
-            >
-              {confession.show}
-            </TypographySelectableStyled>
+
+          {periodicConfessions.map((confession) => (
+            <Grid container direction="column" key={confession.id}>
+              <Grid item>
+                <Typography color="textPrimary" style={{ fontWeight: "bold" }}>
+                  {confession.period}
+                </Typography>
+              </Grid>
+              <Grid item style={{ paddingLeft: "20px" }}>
+                <TypographySelectableStyled
+                  color="textPrimary"
+                  key={confession.id}
+                  selectable={parseStyledBoolean(isEdit || isDelete)}
+                  hovered={parseStyledBoolean(
+                    (isEdit || isDelete) && hovered?.id === confession.id
+                  )}
+                  onMouseEnter={() => setHovered(confession)}
+                  onMouseLeave={() => setHovered(undefined)}
+                  onClick={() => handleSelectConfession(confession)}
+                >
+                  {confession.show}
+                </TypographySelectableStyled>
+              </Grid>
+            </Grid>
           ))}
         </MainGridStyled>
+        {singleConfession.length ? (
+          <MainGridStyled item md={breakpoints.md}>
+            <TitleTypography>Pojedyncza spowiedź</TitleTypography>
+            {singleConfession.map((confession) => (
+              <TypographySelectableStyled
+                color="textPrimary"
+                key={confession.id}
+                selectable={parseStyledBoolean(isEdit || isDelete)}
+                hovered={parseStyledBoolean(
+                  (isEdit || isDelete) && hovered?.id === confession.id
+                )}
+                onMouseEnter={() => setHovered(confession)}
+                onMouseLeave={() => setHovered(undefined)}
+                onClick={() => handleSelectConfession(confession)}
+              >
+                {confession.show}
+              </TypographySelectableStyled>
+            ))}
+          </MainGridStyled>
+        ) : null}
       </Grid>
       <ConfessionForm
         open={Boolean(isAdd || (selectedConfession && isEdit))}

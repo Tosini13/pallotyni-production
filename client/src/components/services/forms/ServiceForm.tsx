@@ -49,6 +49,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
       title: "",
       time: "12:00",
       priest: "",
+      period: "",
     });
   };
   const handleCloseForm = () => {

@@ -16,6 +16,7 @@ const HomeServices: React.FC<HomeServicesProps> = observer(() => {
   }, [storeServices]);
   let noServices = true;
 
+  const periodicServices = storeServices.getPeriodic;
   const servicesMap = storeServices.getServicesByDay;
   return (
     <Grid container direction="column" justify="center" alignItems="center">
@@ -46,6 +47,20 @@ const HomeServices: React.FC<HomeServicesProps> = observer(() => {
             </Grid>
           );
         })}
+        {periodicServices.map((service) => (
+          <Grid container direction="column" key={service.id}>
+            <Grid item>
+              <Typography color="textPrimary" style={{ fontWeight: "bold" }}>
+                {service.period}
+              </Typography>
+            </Grid>
+            <Grid item style={{ paddingLeft: "20px" }}>
+              <Typography color="textPrimary">
+                {service.time} - {service.title}
+              </Typography>
+            </Grid>
+          </Grid>
+        ))}
         {noServices ? (
           <Typography color="textPrimary">No Services</Typography>
         ) : null}

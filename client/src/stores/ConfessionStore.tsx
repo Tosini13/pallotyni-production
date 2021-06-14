@@ -16,15 +16,23 @@ export class Confession {
   title: string;
   date?: string;
   days?: Day[];
-  fromTime: string;
-  toTime: string;
+  fromTime?: string;
+  toTime?: string;
   priest: string;
+  period?: string;
 
   get show() {
+    if (this.period) {
+      return `${this.title}${this.title && this.priest ? `,` : ""} ${
+        this.priest
+      }`;
+    }
     return `${
       this.date ? format(new Date(this.date), DATE_FORMAT, { locale: pl }) : ""
     }
-    ${this.fromTime} - ${this.toTime}: ${this.title}, ${this.priest}`;
+    ${this.fromTime} - ${this.toTime}: ${this.title}${
+      this.title && this.priest ? `,` : ""
+    } ${this.priest}`;
   }
 
   constructor({
@@ -35,6 +43,7 @@ export class Confession {
     fromTime,
     toTime,
     priest,
+    period,
   }: TConfession) {
     makeObservable(this, {
       id: observable,
@@ -44,6 +53,7 @@ export class Confession {
       fromTime: observable,
       toTime: observable,
       priest: observable,
+      period: observable,
       show: computed,
     });
     this.id = id;
@@ -53,6 +63,7 @@ export class Confession {
     this.days = days;
     this.fromTime = fromTime;
     this.toTime = toTime;
+    this.period = period;
   }
 }
 
@@ -81,7 +92,6 @@ export class ConfessionStore {
     const data = await axios.post(CONFESSIONS_API_URL, confession);
     const confessionData = data.data as TConfession;
     if (confessionData) {
-      console.log("createConfession", confessionData);
       this.confessions = [...this.confessions, new Confession(confessionData)];
     } else {
       console.log("error");
@@ -95,7 +105,6 @@ export class ConfessionStore {
     );
     const confessionData = data.data as TConfession;
     if (confessionData) {
-      console.log("updateConfession", confessionData);
       const updatedConfession = new Confession(confessionData);
       this.confessions = this.confessions.map((c) =>
         c.id === updatedConfession.id ? updatedConfession : c
@@ -106,11 +115,9 @@ export class ConfessionStore {
   }
 
   async removeConfession(confession: Confession) {
-    console.log("removeConfession", `${CONFESSIONS_API_URL}/${confession.id}`);
     const data = await axios.delete(`${CONFESSIONS_API_URL}/${confession.id}`);
     const confessionData = data.data as TConfession;
     if (confessionData) {
-      console.log("removeConfession", confessionData);
       this.confessions = this.confessions.filter(
         (c) => c.id !== confessionData.id
       );
@@ -182,6 +189,10 @@ export class ConfessionStore {
     return selectedConfession.sort(this.sortByTime);
   }
 
+  get getPeriodic() {
+    return this.confessions.filter((confession) => confession.period);
+  }
+
   constructor() {
     makeObservable(this, {
       confessions: observable,
@@ -193,6 +204,7 @@ export class ConfessionStore {
       getConfessionsByDate: action,
       getConfessionsByDay: computed,
       getConfessionsNextWeek: computed,
+      getPeriodic: computed,
     });
     this.fetch();
   }

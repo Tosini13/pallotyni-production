@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 
-import { DialogActions, DialogContent, Grid } from "@material-ui/core";
+import { DialogActions, DialogContent, Grid, Switch } from "@material-ui/core";
 
 import {
   DialogCircularProgress,
@@ -15,7 +15,9 @@ import {
   Confession,
   ConfessionStoreContext,
 } from "../../../stores/ConfessionStore";
-import DatePickerSwitch from "../../services/forms/DatePickerSwitch";
+import DatePickerSwitch, {
+  FormControlLabelStyled,
+} from "../../services/forms/DatePickerSwitch";
 import {
   ButtonError,
   ButtonSuccess,
@@ -40,6 +42,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
   const sConfession = useContext(ConfessionStoreContext);
   const { register, handleSubmit, reset } = useForm<TConfessionForm>();
 
+  const [periodic, setPeriodic] = useState<boolean>(true);
   const [repeat, setRepeat] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     new Date() ?? format(new Date(), DATE_FORMAT)
@@ -54,6 +57,7 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
       fromTime: "12:00",
       toTime: "12:30",
       priest: "",
+      period: "",
     });
   };
 
@@ -63,19 +67,19 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
   };
 
   const onSubmit = async (data: TConfessionForm) => {
-    console.log(data);
     if (selectedConfession) {
       await execute(
         sConfession.updateConfession({
           title: data.title,
           priest: data.priest,
-          fromTime: data.fromTime,
-          toTime: data.toTime,
-          days: repeat ? selectedDays : undefined,
+          fromTime: !periodic ? data.fromTime : undefined,
+          toTime: !periodic ? data.toTime : undefined,
+          days: !periodic && repeat ? selectedDays : undefined,
           date:
-            !repeat && selectedDate
+            !periodic && !repeat && selectedDate
               ? format(selectedDate, DATE_FORMAT)
               : undefined,
+          period: periodic ? data.period : undefined,
           id: selectedConfession.id,
         })
       );
@@ -84,13 +88,14 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
         sConfession.createConfession({
           title: data.title,
           priest: data.priest,
-          fromTime: data.fromTime,
-          toTime: data.toTime,
-          days: repeat ? selectedDays : undefined,
+          fromTime: !periodic ? data.fromTime : undefined,
+          toTime: !periodic ? data.toTime : undefined,
+          days: !periodic && repeat ? selectedDays : undefined,
           date:
-            !repeat && selectedDate
+            !periodic && !repeat && selectedDate
               ? format(selectedDate, DATE_FORMAT)
               : undefined,
+          period: periodic ? data.period : undefined,
         })
       );
     }
@@ -130,8 +135,30 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
                 label="Ksiądz"
               />
             </Grid>
+            <Grid item md={3}>
+              <FormControlLabelStyled
+                value={periodic}
+                checked={periodic}
+                name="periodic"
+                control={<Switch color="secondary" checked={periodic} />}
+                label="Okresowo"
+                labelPlacement="end"
+                inputRef={register}
+                onClick={() => setPeriodic(!periodic)}
+              />
+            </Grid>
+            <Grid item md={9}>
+              <TextFieldC
+                multiline
+                inputRef={register}
+                name="period"
+                label="Okres"
+                disabled={!periodic}
+                required={periodic}
+              />
+            </Grid>
             <DatePickerSwitch
-              disabled={false}
+              disabled={periodic}
               register={register}
               repeat={repeat}
               setRepeat={setRepeat}
@@ -140,38 +167,42 @@ const ConfessionForm: React.FC<ConfessionFormProps> = ({
               selectedDays={selectedDays}
               setSelectedDays={setSelectedDays}
             />
-            <Grid item md={3}>
-              <TextFieldC
-                required
-                label="Rozpoczęcie"
-                type="time"
-                defaultValue={"12:00"}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  step: 60,
-                }}
-                inputRef={register}
-                name="fromTime"
-              />
-            </Grid>
-            <Grid item md={3}>
-              <TextFieldC
-                required
-                label="Zakończenie"
-                type="time"
-                defaultValue={"12:00"}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  step: 60,
-                }}
-                inputRef={register}
-                name="toTime"
-              />
-            </Grid>
+            {!periodic ? (
+              <>
+                <Grid item md={3}>
+                  <TextFieldC
+                    required
+                    label="Rozpoczęcie"
+                    type="time"
+                    defaultValue={"12:00"}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 60,
+                    }}
+                    inputRef={register}
+                    name="fromTime"
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <TextFieldC
+                    required
+                    label="Zakończenie"
+                    type="time"
+                    defaultValue={"12:00"}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 60,
+                    }}
+                    inputRef={register}
+                    name="toTime"
+                  />
+                </Grid>
+              </>
+            ) : null}
           </Grid>
         </DialogContent>
         <DialogActions>

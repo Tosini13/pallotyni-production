@@ -162,6 +162,7 @@ export class ServiceStore {
       getServicesByDate: action,
       getServicesByDay: computed,
       getSingleService: computed,
+      getPeriodic: computed,
     });
     this.fetch();
   }

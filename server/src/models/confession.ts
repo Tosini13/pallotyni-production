@@ -20,13 +20,17 @@ const SConfession = new Schema({
   },
   fromTime: {
     type: String,
-    required: [true, "Confession fromTime is required"],
+    required: false,
   },
   toTime: {
     type: String,
-    required: [true, "Confession fromTime is required"],
+    required: false,
   },
   priest: {
+    type: String,
+    required: false,
+  },
+  period: {
     type: String,
     required: false,
   },
@@ -36,9 +40,10 @@ export type TConfession = {
   title: string;
   date?: string;
   days?: string[];
-  fromTime: string;
-  toTime: string;
+  fromTime?: string;
+  toTime?: string;
   priest: string;
+  period?: string;
 };
 
 export type TConfessionRes = TConfession & {
@@ -49,9 +54,10 @@ export interface IConfession extends Document {
   title: string;
   date?: string;
   days?: string[];
-  fromTime: string;
-  toTime: string;
+  fromTime?: string;
+  toTime?: string;
   priest: string;
+  period?: string;
 }
 
 const Confession = mongoose.model<IConfession>("confession", SConfession);

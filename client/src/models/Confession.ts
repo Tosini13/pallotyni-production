@@ -5,9 +5,10 @@ export type TConfession = {
   title: string;
   date?: string;
   days?: Day[];
-  fromTime: string;
-  toTime: string;
+  fromTime?: string;
+  toTime?: string;
   priest: string;
+  period?: string;
 };
 
 export type TCreateConfession = Omit<TConfession, "id">;

@@ -17,6 +17,7 @@ const convertConfession = (
     title: confession.title,
     fromTime: confession.fromTime,
     toTime: confession.toTime,
+    period: confession.period,
   };
 };
 
@@ -36,6 +37,7 @@ export const createConfession = (req: Request, res: Response) => {
     fromTime: req.body.fromTime,
     toTime: req.body.toTime,
     priest: req.body.priest,
+    period: req.body.period,
   };
   Confession.create(confession)
     .then((c) => res.send(convertConfession(c)))
@@ -50,6 +52,7 @@ export const updateConfession = (req: Request, res: Response) => {
     fromTime: req.body.fromTime,
     toTime: req.body.toTime,
     priest: req.body.priest,
+    period: req.body.period,
   };
   Confession.findByIdAndUpdate({ _id: req.params.id }, confession)
     .then((c) => {

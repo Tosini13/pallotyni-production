@@ -14,6 +14,7 @@ const HomeConfessions: React.FC<HomeConfessionsProps> = observer(() => {
   useEffect(() => {
     storeConfessions.fetch();
   }, [storeConfessions]);
+  const periodicConfessions = storeConfessions.getPeriodic;
   const dailyConfessionsMap = storeConfessions.getConfessionsByDay;
   return (
     <Grid container direction="column" justify="center" alignItems="center">
@@ -33,17 +34,29 @@ const HomeConfessions: React.FC<HomeConfessionsProps> = observer(() => {
                   {translateDays(day)}
                 </Typography>
               </Grid>
-              {confessions.map((confessions) => (
-                <Grid item style={{ paddingLeft: "20px" }} key={confessions.id}>
+              {confessions.map((confession) => (
+                <Grid item style={{ paddingLeft: "20px" }} key={confession.id}>
                   <Typography color="textPrimary">
-                    {confessions.fromTime} - {confessions.toTime}{" "}
-                    {confessions.priest}
+                    {confession.fromTime} - {confession.toTime}{" "}
+                    {confession.priest}
                   </Typography>
                 </Grid>
               ))}
             </Grid>
           );
         })}
+        {periodicConfessions.map((confession) => (
+          <Grid container direction="column" key={confession.id}>
+            <Grid item>
+              <Typography color="textPrimary" style={{ fontWeight: "bold" }}>
+                {confession.period}
+              </Typography>
+            </Grid>
+            <Grid item style={{ paddingLeft: "20px" }}>
+              <Typography color="textPrimary">{confession.show}</Typography>
+            </Grid>
+          </Grid>
+        ))}
       </Grid>
     </Grid>
   );
