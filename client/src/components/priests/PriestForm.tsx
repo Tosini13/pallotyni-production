@@ -122,6 +122,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
         firstName: data.firstName,
         lastName: data.lastName,
         position: data.position,
+        description: data.description,
         isInFooter: data.isInFooter,
         imageFile: image,
       });
@@ -131,6 +132,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
         firstName: data.firstName,
         lastName: data.lastName,
         position: data.position,
+        description: data.description,
         isInFooter: data.isInFooter,
         imageFile: image,
       });
@@ -149,6 +151,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
       firstName: "",
       lastName: "",
       position: "",
+      description: "",
     });
     setImage(undefined);
     setImageUrl(undefined);
@@ -179,6 +182,7 @@ const PriestForm: React.FC<PriestFormProps> = ({
         firstName: selectedPriest.firstName,
         lastName: selectedPriest.lastName,
         position: selectedPriest.position,
+        description: selectedPriest.description,
         isInFooter: selectedPriest.isInFooter,
       });
     }
@@ -228,6 +232,9 @@ const PriestForm: React.FC<PriestFormProps> = ({
             </Grid>
             <Grid item>
               <TextFieldC inputRef={register} name="position" label="Pozycja" />
+            </Grid>
+            <Grid item>
+              <TextFieldC inputRef={register} name="description" label="Opis" />
             </Grid>
             <Grid item>
               <FormControlLabelStyled

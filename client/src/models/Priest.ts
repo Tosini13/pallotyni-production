@@ -4,6 +4,7 @@ export type TPriest = {
   id: Id;
   firstName: string;
   lastName: string;
+  description?: string;
   path?: string;
   position?: string;
   isInFooter: boolean;

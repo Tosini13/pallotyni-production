@@ -25,6 +25,9 @@ const PriestSummary: React.FC<PriestSummaryProps> = ({ priest }) => {
       <Grid item>
         <Typography color="textPrimary">{priest.position}</Typography>
       </Grid>
+      <Grid item>
+        <Typography color="textPrimary">{priest.description}</Typography>
+      </Grid>
     </Grid>
   );
 };

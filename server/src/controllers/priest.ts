@@ -8,6 +8,7 @@ export const convertPriest = (priest: LeanDocument<IPriest>): TPriestRes => ({
   lastName: priest.lastName,
   path: priest.path,
   position: priest.position,
+  description: priest.description,
   isInFooter: priest.isInFooter,
 });
 
@@ -23,6 +24,7 @@ export const createPriest = (req: Request, res: Response) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     path: req.body.path,
+    description: req.body.description,
     position: req.body.position,
     isInFooter: req.body.isInFooter,
   };
@@ -37,6 +39,7 @@ export const updatePriest = (req: Request, res: Response) => {
     lastName: req.body.lastName,
     path: req.body.path,
     position: req.body.position,
+    description: req.body.description,
     isInFooter: req.body.isInFooter,
   };
   Priest.findByIdAndUpdate({ _id: req.params.id }, priestData)

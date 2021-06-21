@@ -21,6 +21,8 @@ export class Priest {
 
   path?: string;
 
+  description?: string;
+
   position?: string;
 
   isInFooter: boolean;
@@ -31,6 +33,7 @@ export class Priest {
     lastName,
     path,
     position,
+    description,
     isInFooter,
   }: TPriest) {
     makeObservable(this, {
@@ -44,6 +47,7 @@ export class Priest {
     this.lastName = lastName;
     this.path = path;
     this.position = position;
+    this.description = description;
     this.isInFooter = isInFooter;
   }
 }

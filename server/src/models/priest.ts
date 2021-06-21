@@ -18,6 +18,10 @@ const SPriest = new Schema({
     type: String,
     required: false,
   },
+  description: {
+    type: String,
+    required: false,
+  },
   isInFooter: {
     type: Boolean,
     required: [true, "isInFooter is required"],
@@ -28,6 +32,7 @@ export type TPriest = {
   firstName: string;
   lastName: string;
   path?: string;
+  description?: string;
   position?: string;
   isInFooter: boolean;
 };
@@ -42,6 +47,7 @@ export interface IPriest extends Document {
   firstName: string;
   lastName: string;
   path?: string;
+  description?: string;
   position?: string;
   isInFooter: boolean;
 }
