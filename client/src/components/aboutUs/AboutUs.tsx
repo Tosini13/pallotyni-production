@@ -95,25 +95,15 @@ const AboutUs: React.FC<AboutUsProps> = observer(() => {
     }
   };
 
-  const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
   return (
-    <MainLayout
-      img={BackgroundImg}
-      title="Parafia p.w. św. Jana Ewangelisty w Szczecinie"
-      subtitle="Kościół Pallotynów"
-    >
+    <MainLayout img={BackgroundImg} title="Historia">
       <Grid container spacing={3} style={{ position: "relative" }}>
-        <Grid item>
-          <Typography variant="h4">About us</Typography>
-        </Grid>{" "}
-        {IS_ADMIN_TEMP ? (
-          <RCButtonsCUD
-            handleAdd={() => setOpenForm(true)}
-            handleEdit={() => setEdition(true)}
-            handleDelete={() => setRemoval(true)}
-            handleCancel={handleClearActionsSD}
-          />
-        ) : null}
+        <RCButtonsCUD
+          handleAdd={() => setOpenForm(true)}
+          handleEdit={() => setEdition(true)}
+          handleDelete={() => setRemoval(true)}
+          handleCancel={handleClearActionsSD}
+        />
         {storeParagraph.getParagraph().map((paragraph) => (
           <GridActionStyled
             item

@@ -20,6 +20,7 @@ import { Hidden } from "@material-ui/core";
 import Announcements from "./components/announcements/Announcements";
 import Priests from "./components/priests/Priests";
 import Intentions from "./components/intentions/Intentions";
+import AboutUs from "./components/aboutUs/AboutUs";
 
 const GlobalStyle = styled.div`
   ${ScrollBarStyled}
@@ -81,6 +82,7 @@ function App() {
                 path={RoutingPath.intentions}
                 component={Intentions}
               />
+              <Route exact path={RoutingPath.history} component={AboutUs} />
               <Route exact path={RoutingPath.home} component={Home} />
             </Switch>
           </MainStyled>
