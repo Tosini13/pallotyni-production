@@ -13,6 +13,7 @@ export enum RoutingPath {
   gallery = "/gallery",
   news = "/news",
   announcements = "/announcements",
+  intentions = "/intentions",
   album = "/albums/:id",
   login = "/login",
   resetPassword = "/reset-password",

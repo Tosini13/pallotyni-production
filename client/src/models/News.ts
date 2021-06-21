@@ -3,6 +3,7 @@ import { Id } from "./Global";
 export enum E_NEWS_TYPE {
   "NEWS" = "NEWS",
   "ANNOUNCEMENT" = "ANNOUNCEMENT",
+  "INTENTION" = "INTENTION",
 }
 
 export type TNews = {

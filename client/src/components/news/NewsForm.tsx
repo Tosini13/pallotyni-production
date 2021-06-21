@@ -79,6 +79,11 @@ const NewsForm: React.FC<NewsFormProps> = ({
     setType(selectedNews?.type ?? defaultType ?? E_NEWS_TYPE.NEWS);
   }, [reset, selectedNews]);
 
+  const types = new Map<E_NEWS_TYPE, string>();
+  types.set(E_NEWS_TYPE.NEWS, "Aktualności");
+  types.set(E_NEWS_TYPE.ANNOUNCEMENT, "Ogłoszenia");
+  types.set(E_NEWS_TYPE.INTENTION, "Intencje");
+
   return (
     <DialogStyled open={open} onClose={handleCloseForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,18 +101,17 @@ const NewsForm: React.FC<NewsFormProps> = ({
               value={type}
               onChange={handleChange}
             >
-              <FormControlLabel
-                value={E_NEWS_TYPE.ANNOUNCEMENT}
-                control={<Radio />}
-                label={
-                  <Typography color="textSecondary">Ogłoszenie</Typography>
-                }
-              />
-              <FormControlLabel
-                value={E_NEWS_TYPE.NEWS}
-                control={<Radio />}
-                label={<Typography color="textSecondary">News</Typography>}
-              />
+              {Object.values(E_NEWS_TYPE).map((type) => (
+                <FormControlLabel
+                  value={type}
+                  control={<Radio />}
+                  label={
+                    <Typography color="textSecondary">
+                      {types.get(type)}
+                    </Typography>
+                  }
+                />
+              ))}
             </RadioGroup>
           </FormControl>
           <Grid container direction="column" spacing={2}>
@@ -120,6 +124,7 @@ const NewsForm: React.FC<NewsFormProps> = ({
                 inputRef={register}
                 name="content"
                 label="Treść"
+                required
               />
             </Grid>
           </Grid>

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { format, isAfter } from "date-fns";
 
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { E_NEWS_TYPE, TNews, TNewsCreate } from "../models/News";
 import { DATE_TIME_FORMAT, Id } from "../models/Global";
 import { NEWS_API_URL } from "../models/const";
@@ -49,17 +49,17 @@ export class NewsStore {
     }
   }
 
-  @action
-  getAllNews() {
+  get getAllNews() {
     return this.news.filter((news) => news.type === E_NEWS_TYPE.NEWS);
   }
 
-  @action
-  getAllAnnouncements() {
+  get getAllAnnouncements() {
     return this.news.filter((news) => news.type === E_NEWS_TYPE.ANNOUNCEMENT);
   }
 
-  @action
+  get getAllIntentions() {
+    return this.news.filter((news) => news.type === E_NEWS_TYPE.INTENTION);
+  }
   getLatestNews() {
     if (!this.news.length) {
       return null;
@@ -73,7 +73,6 @@ export class NewsStore {
     return latestNews;
   }
 
-  @action
   getNews(id: Id) {
     return this.news.find((news) => news.id === id);
   }
@@ -116,6 +115,9 @@ export class NewsStore {
       createNews: action,
       updateNews: action,
       deleteNews: action,
+      getAllNews: computed,
+      getAllAnnouncements: computed,
+      getAllIntentions: computed,
     });
     this.fetch();
   }

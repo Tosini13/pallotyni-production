@@ -148,6 +148,11 @@ export const Menu: React.FC<MenuProps> = ({ actionCallback }) => {
                 Newsy
               </LinkStyled>
             </GridSubMenuItem>
+            <GridSubMenuItem>
+              <LinkStyled to={RoutingPath.intentions} onClick={actionCallback}>
+                Intencje
+              </LinkStyled>
+            </GridSubMenuItem>
           </GridSubMenuContainer>
         </GridMenuItem>
       </Hidden>

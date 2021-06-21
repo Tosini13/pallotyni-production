@@ -19,6 +19,7 @@ import SidebarMenu from "./components/sidebarMenu/SidebarMenu";
 import { Hidden } from "@material-ui/core";
 import Announcements from "./components/announcements/Announcements";
 import Priests from "./components/priests/Priests";
+import Intentions from "./components/intentions/Intentions";
 
 const GlobalStyle = styled.div`
   ${ScrollBarStyled}
@@ -74,6 +75,11 @@ function App() {
                 exact
                 path={RoutingPath.announcements}
                 component={Announcements}
+              />
+              <Route
+                exact
+                path={RoutingPath.intentions}
+                component={Intentions}
               />
               <Route exact path={RoutingPath.home} component={Home} />
             </Switch>

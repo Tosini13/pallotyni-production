@@ -49,8 +49,7 @@ const Announcements: React.FC<NewsProps> = observer(() => {
     }
   };
 
-  const IS_ADMIN_TEMP = true; // TODO: change with real admin value;
-  const allNews = newsStore.getAllAnnouncements();
+  const allNews = newsStore.getAllAnnouncements;
   return (
     <MainLayout img={BackgroundImg} title="Ogłoszenia">
       <Grid
@@ -59,14 +58,12 @@ const Announcements: React.FC<NewsProps> = observer(() => {
         justify="center"
         style={{ position: "relative" }}
       >
-        {IS_ADMIN_TEMP ? (
-          <RCButtonsCUD
-            handleAdd={() => setOpenForm(true)}
-            handleEdit={() => setEdition(true)}
-            handleDelete={() => setRemoval(true)}
-            handleCancel={handleClearActionsSD}
-          />
-        ) : null}
+        <RCButtonsCUD
+          handleAdd={() => setOpenForm(true)}
+          handleEdit={() => setEdition(true)}
+          handleDelete={() => setRemoval(true)}
+          handleCancel={handleClearActionsSD}
+        />
         {allNews.map((news, i) => (
           <React.Fragment key={news.id}>
             <GridActionStyled
