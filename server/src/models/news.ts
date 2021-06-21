@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 export enum E_NEWS_TYPE {
   "NEWS" = "NEWS",
   "ANNOUNCEMENT" = "ANNOUNCEMENT",
+  "INTENTIONS" = "INTENTIONS",
 }
 
 const SNews = new Schema({
